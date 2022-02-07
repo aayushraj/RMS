@@ -1,0 +1,15 @@
+﻿@*@model List<RMS.Models.Rentee>
+
+
+<h2>Rented Floors</h2>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        @Html.ActionLink(item.FloorName,"Index","Rentmanagment" , new {FloorNumber = item.FloorNumber},null)
+    }
+    <li>
+
+    </li>
+</ul>
+*@

@@ -1,0 +1,70 @@
+﻿@using RMS.Models
+@model FamilyInfoModel
+
+
+@{
+    string FullName = "";
+
+
+
+}
+<h1>Family Information</h1>
+<div class="table-responsive">
+    <table class=" table table-bordered table-hover tab-content" id="myTable">
+        <thead>
+            <tr class="danger">
+
+                <th> Name</th>
+                <th> Address</th>
+                <th> Contact</th>
+                <th>Gender</th>
+                <th>Relationship</th>
+                <th>Date Of Birth</th> 
+                <th> Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.List)
+            {
+                FullName = $" {item.FirstName} {item.LastName}";
+                //FullName = item.FirstName + " " + item.LastName;
+                //FullName = string.Concat(item.FirstName,item.LastName);
+
+
+
+                <tr class="info">
+
+                    <td>@FullName</td>
+                    <td>@item.Address</td>
+                    <td>@item.Contact</td>
+                    <td>@item.Gender</td>
+                    <td>@item.Relationship</td>
+                    <td>@item.DOB</td>
+
+
+
+                    <td>
+                        <a href="/FamilyInfo/Edit/@item.Id" class="btn btn-primary" title="Edit"><span class="fa fa-edit"></span></a>
+                        <a href="/FamilyInfo/Delete/@item.Id" class="btn btn-danger" title="Delete"><span class="fa fa-trash"></span></a>
+                    </td>
+                    @*<td>
+                            <a href="/Edit/@item.Id" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a href="/Delete/@item.Id" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>*@
+
+                </tr>
+
+
+            }
+        </tbody>
+
+    </table>
+</div>
+
+<p>
+    <a href="/FamilyInfo/Create/@ViewBag.Id" class="btn btn-success">Create New</a>
+    <a href="/TenantInfo/Index" class="btn btn-primary">Back to main page</a>
+</p>
+
+

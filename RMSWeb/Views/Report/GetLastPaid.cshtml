@@ -1,0 +1,48 @@
+﻿@using RMS.Models
+@model ReportModel
+
+<script src="~/Scripts/custom.js"></script>
+@{
+    Layout = null;
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5><b>Last Paid Details</b></h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover tab-content">
+
+                <thead>
+                    <tr class="danger">
+                        <th>Paid Amount</th>
+                        <th>PaymentDate</th>
+                        <th>DueAmount</th>
+                        <th>Advance</th>
+                        <th>CreatedDate</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="info">
+                        <td>@Model.PaidAmount</td>
+                        <td>@Model.PaymentDate</td>
+                        <td>@Model.DueAmount</td>
+                        <td>@Model.Advance</td>
+                        <td>@Model.CreatedDate</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+

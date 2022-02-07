@@ -1,0 +1,83 @@
+﻿@using RMS.Models
+@model PaymentModel
+
+
+<style>
+    fieldset {
+        display: block;
+        margin-inline-start: 2px;
+        margin-inline-end: 2px;
+        padding-block-start: 0.35em;
+        padding-inline-start: 0.75em;
+        padding-inline-end: 0.75em;
+        padding-block-end: 0.625em;
+        min-inline-size: min-content;
+        border-width: 2px;
+        border-style: groove;
+        border-color: threedface;
+        border-image: initial
+    }
+
+  </style>
+
+<div>
+  <form method="post">
+        <div>
+            <fieldset>
+            <h3>Select Month</h3>
+            <div class="row form-group">
+
+                <div class="col-md-4">
+                    <label>From</label>
+                    <select name="From" class="form-control">
+                        <option value="1">January</option>
+                        <option value="2">Febraury</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label>TO</label>
+                    <select name="To" class="form-control">
+                        <option value="1">January</option>
+                        <option value="2">Febraury</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+
+            </div>
+                </fieldset>
+        </div>
+
+        <div>
+            <fieldset>
+            <h3>Select Tenant Name</h3>
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label>Tenant Name</label>
+                    @Html.DropDownListFor(x => x.TenantId, RMS.Utility.Utilities.GetTenant(), "Select Name", new { @class = "form-control", @id = "tenantId" })
+                </div>
+
+            </div>
+                </fieldset>
+        </div>
+       <input type="submit" value="See Payment" class="btn btn-success"/>
+    </form>
+</div>

@@ -1,0 +1,87 @@
+﻿@using RMS.Models
+@model PaymentModel
+
+<style>
+    .display{
+        display:none;
+    }
+</style>
+
+<div>
+    <h1>Enter Details</h1>
+    <form method="post">
+        <div class="row form-group">
+            <div class="col-md-4">
+                <label>Tenant Name</label>
+                @Html.DropDownListFor(x => x.TenantId, RMS.Utility.Utilities.GetTenant(), "Select Name", new { @class = "form-control", @id = "tenantId" })
+
+            </div>
+            <div class="col-md-4 display" id="floorDisplayId">
+                <label>Floor</label>
+                @Html.DropDownListFor(x => x.FloorId, new SelectList(string.Empty), new { @class = "form-control", @id = "floorId",@readonly=true})
+            </div>
+            <div class="col-md-4">
+                <label>Paid Amount</label>
+                <input type="text" name="PaidAmount" class="form-control" />
+            </div>
+
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-4">
+                <label>Payment Date</label>
+                <input type="datetime-local" name="PaymentDate" class="form-control">
+
+            </div>
+            
+        </div>
+        <input type="submit" value="Pay" class="btn btn-success"/>
+    </form>
+
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.datepicker').datepicker();
+
+
+
+        $('#tenantId').change(function () {
+
+            var id = $(this).val();
+            var url = "/Common/GetFloor?FloorId=" + id;
+            $('#floorDisplayId').hide();
+
+            if (id == null || id =="") {
+                $('#floorDisplayId').hide();
+
+                return;
+            }
+
+            $.ajax({
+                type: "get",
+                url: url,
+                dataType: 'json',
+
+                success: function (data) {
+                    console.log(data.FloorId);
+                    // states contains the JSON formatted list
+                    // of states passed from the controller
+                    $('#floorId').empty();
+                    $('#floorDisplayId').show();
+                    $("#floorId").append('<option value="'
+                        + data.FloorId + '">'
+                                + data.FloorName + '</option>');
+
+                },
+                error: function () {
+                    alert("Error");
+                }
+            })
+        })
+    })
+
+        
+</script>
+

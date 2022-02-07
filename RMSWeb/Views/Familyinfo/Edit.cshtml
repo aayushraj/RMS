@@ -1,0 +1,18 @@
+﻿@using RMS.Models
+@model FamilyInfoModel
+
+<form method="post">
+    <label>Firstname</label><input type="text" name="FirstName" value="@Model.FirstName" class="form-control" />
+    <label>Lastname</label><input type="text" name="LastName" value="@Model.LastName" class="form-control" />
+    <label>Addressname</label><input type="text" name="Address" value="@Model.Address" class="form-control" />
+    <label>Contact</label><input type="number" name="Contact" value="@Model.Contact" class="form-control" />
+    <label>gender</label><input type="text" name="gender" value="@Model.Gender" class="form-control" />
+    <label>Relationship</label><input type="text" name="Relationship" value="@Model.Relationship" class="form-control" />
+    <label>Date of Birth</label><input type="text" name="Dob" value="@Model.DOB" class="form-control" />
+
+    <div>
+        <input type="submit" value="Edit" class="btn btn-success" />
+        <a href="/TenantInfo/Index" class="btn btn-primary">Cancel</a>
+    </div>
+
+</form>

@@ -1,0 +1,107 @@
+﻿@using RMS.Models
+@model ReportModel
+
+<div class="card">
+    <div class="card-header">
+        <h4><b>Select Month And Tenant Name</b></h4>
+    </div>
+    <div class="card-body">
+        <div>
+            <form method="post" id="form">
+                <div>
+
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            <label>Tenant Name</label>
+                            @Html.DropDownListFor(x => x.TenantId, RMS.Utility.Utilities.GetTenant(), "Select Name", new { @class = "form-control", @id = "tenantId" })
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>From</label>
+                            <select name="From" class="form-control">
+                                <option value="1">January</option>
+                                <option value="2">Febraury</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>TO</label>
+                            <select name="To" class="form-control">
+                                <option value="1">January</option>
+                                <option value="2">Febraury</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <input type="button" value="See Payment" class="btn btn-primary" onclick="getReport()" />
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="report" style="display:none">
+
+</div>
+<div id="image" style="display:none">
+    <p><img src="~/photo/Dual Ball-1s-200px.gif" width="100" height="100" style="vertical-align: middle; margin: 50px 450px" /></p>
+</div>
+
+
+<script>
+
+    var getReport = function () {
+        $('#report').hide();
+
+        var Id = $('#tenantId').val()
+        if (Id == null || Id == "") {
+            toasterror("Name is Required.");
+            console.log(Id)
+        }
+
+        else {
+
+            $('image').show();
+
+            $.ajax({
+                url: "/Report/GetMonthlyReport",
+                data: $('form').serialize(),
+                method: "post",
+                success: function (data) {
+                    console.log("Success!")
+                    $('#report').show();
+                    $('#image').hide();
+                    $('#report').html(data);
+                },
+
+                error: function () {
+                    console.log("Error!");
+                }
+            })
+        }
+    };
+
+
+</script>

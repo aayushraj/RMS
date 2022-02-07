@@ -1,0 +1,129 @@
+﻿@using RMS.Models
+@model TenantInfoModel
+<!-- DataTables -->
+@*<link rel="stylesheet" href="~/AdminLTE-3.1.0/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="~/AdminLTE-3.1.0/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="~/AdminLTE-3.1.0/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">*@
+@{
+    string FullName = "";
+
+}
+
+@*<h1>Family Information</h1>*@
+@if (Model.IsSuccess)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@Model.SuccessMessage</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+@if (!Model.IsSuccess && Model.flag == 2)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>@Model.SuccessMessage</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<div style="font-family:'Comic Sans MS'">
+
+    <p>
+        @Html.ActionLink("Create New", "Create", "", new { @class = "btn btn-info" })
+        <a href="/Familyinfo/Index" class="btn btn-success">Click here to See Family Information</a>
+    </p>
+
+</div>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover tab-content" id="myTable">
+        <thead>
+            <tr class="danger">
+
+                <th> Name</th>
+                <th> Address</th>
+                <th> Contact</th>
+                <th> State</th>
+                <th> City</th>
+                <th> WardNo</th>
+                <th> Email</th>
+                <th>District</th>
+                <th> Action</th>
+                <th>Family Info of Rentee</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.List)
+            {
+                FullName = $" {item.FirstName} {item.LastName}";
+                //FullName = item.FirstName + " " + item.LastName;
+                //FullName = string.Concat(item.FirstName,item.LastName);
+
+                <tr class="info">
+
+                    <td>@FullName</td>
+                    <td>@item.Address</td>
+                    <td>@item.Contact</td>
+                    <td>@item.StateName</td>
+                    <td>@item.City</td>
+                    <td>@item.WardNo</td>
+                    <td>@item.Email</td>
+                    <td>@item.DistrictName</td>
+
+                    <td>
+                        <div class="row">
+                            <div class="">
+                                <a href="/TenantInfo/Edit/@item.Id" class="btn btn-sm btn-primary"><i class="far fa-edit"></i></a>
+
+                            </div>
+                            <div class="">
+                                <a href="/Tenantinfo/Delete/@item.Id" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p>
+                            <a href="/Familyinfo/Index/@item.Id" class="btn btn-sm btn-primary" title="View Family"><i class="fa fa-eye"></i></a>
+                            <a href="/Familyinfo/Create/@item.Id" class="btn btn-sm btn-success" title="Add Family"><i class="fa fa-plus"></i></a>
+                        </p>
+                    </td>
+                    @*<td>
+                        <a href="/Edit/@item.Id" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a href="/Delete/@item.Id" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                         </td>*@
+
+                </tr>
+
+
+
+            }
+        </tbody>
+
+    </table>
+</div>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+@*<script src="~/AdminLTE-3.1.0/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/AdminLTE-3.1.0/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/AdminLTE-3.1.0/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/AdminLTE-3.1.0/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="~/AdminLTE-3.1.0/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="~/AdminLTE-3.1.0/plugins/jszip/jszip.min.js"></script>
+<script src="~/AdminLTE-3.1.0/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="~/AdminLTE-3.1.0/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="~/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="~/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="~/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>*@
+
+
+
+
+
+
+

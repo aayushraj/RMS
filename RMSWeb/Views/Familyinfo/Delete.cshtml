@@ -1,0 +1,54 @@
+﻿@using RMS.Models
+@model FamilyInfoModel
+
+<div>
+    <p><font size="5" color="Red">Do you wan to delete Following Family Info ?</font> </p>
+    <table class=" table table-bordered table-content table-hover" style="font-family:'Comic Sans MS'">
+        <tr>
+            <td>
+                <b>FirstName:</b>
+            </td>
+            <td>
+                <b>@Model.FirstName</b>
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <b>LastName:</b>
+            </td>
+            <td>
+                <b>@Model.LastName</b>
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <b>Address:</b>
+            </td>
+            <td>
+                <b>@Model.Address</b>
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <b>Contact:</b>
+            </td>
+            <td>
+                <b>@Model.Contact</b>
+            </td>
+
+        </tr>
+    </table>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken();
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class=" btn btn-danger" />
+            @Html.ActionLink("Cancel", "Index", "FamilyInfo", new { @class = "btn btn-primary" })
+        </div>
+    }
+</div>

@@ -1,0 +1,23 @@
+﻿@using RMS.Models
+@model SetupModel
+
+<div>
+    <h1>Edit Information</h1>
+    <form method="post">
+        <div class="row form-group">
+            <div class="col-md-4">
+                <label>FloorId</label>
+                <input type="text" name="FloorId" value="@Model.FloorId" class="form-control" />
+            </div>
+            <div class="col-md-4">
+                <label>Amount</label>
+                <input type="number"  name="Amount" value="@Model.Amount" class="form-control" />
+            </div>
+        </div>
+        <div>
+            <input type="submit" value="Update" class="btn btn-success" />
+            <a href="/Setup/Index" class="btn btn-primary">Back</a>
+        </div>
+    </form>
+</div>
+

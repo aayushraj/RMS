@@ -1,0 +1,115 @@
+﻿@using RMS.Models
+@model ReportModel
+
+
+@*<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>*@
+<script src="~/Scripts/custom.js"></script>
+@{
+    Layout = null;
+    foreach (var item in Model.list)
+    {
+        item.To = item.From;
+    }
+}
+
+<style>
+
+
+    
+</style>
+<div class="card">
+    <div class="card-header">
+        <b>Filters</b>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover tab-content">
+
+                <thead>
+                    <tr class="danger">
+                        <th>Month</th>
+                        <th>Paid Amount</th>
+                        <th>PaymentDate</th>
+                        <th>DueAmount</th>
+                        <th>Advance</th>
+                        <th>CreatedDate</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+
+
+
+                    @foreach (var item in Model.list)
+                    {
+                        <tr class="info" onclick="MonthlyDetails(@item.From,@item.To,@Model.TenantId)" data-toggle="modal" data-target="#modal-lg">
+                            <td>@RMS.Utility.Utilities.GetMonth(Convert.ToInt32(item.From))</td>
+                            <td>@item.TotalPaid</td>
+                            <td>@item.PaymentDate</td>
+                            <td>@item.DueAmount</td>
+                            <td>@item.Advance</td>
+                            <td>@item.CreatedDate</td>
+                        </tr>
+                    }
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+
+@*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
+        Launch Primary Modal
+    </button>*@
+<div class="modal fade" id="modal-lg">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content MyCSS">
+            <div class="modal-header" id="">
+                <p id="fontcolor">Payment Details of @RMS.Utility.Utilities.GetTenantNameOnly(Model.TenantId) </p>
+                <button type="button" class="close Closebutton" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="MonthlyDetails" style="display:none">
+
+                </div>
+                @*<div class="modal-footer left">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>*@
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    var MonthlyDetails = function (From, To, Id) {
+        $('#MonthlyDetails').hide();
+        $('#Modal-primary').hide();
+        var from = From;
+        var to = To;
+        var id = Id;
+        $.ajax({
+            url: "/Report/GetMonthlyReport?From=" + from + "&To=" + to + "&TenantId=" + id,
+            method: "post",
+
+            success: function (data) {
+                console.log(data.message);
+                //console.log("success");
+                $('#MonthlyDetails').show();
+                $('#Modal-primary').show();
+                $('#MonthlyDetails').html(data);
+            },
+            error: function () {
+                toasterror("Error")
+            }
+        })
+    }
+</script>

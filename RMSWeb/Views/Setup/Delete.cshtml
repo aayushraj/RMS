@@ -1,0 +1,37 @@
+﻿@using RMS.Models
+@model SetupModel
+
+<div>
+    <p><font size="5" color="Red">Do you wan to delete Following Family Info ?</font> </p>
+    <table class=" table table-bordered table-content table-hover" style="font-family:'Comic Sans MS'">
+        <tr>
+            <td>
+                <b>FloorID :</b>
+            </td>
+            <td>
+                <b>@Model.FloorId</b>
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <b>Amount :</b>
+            </td>
+            <td>
+                <b>@Model.Amount</b>
+            </td>
+
+        </tr>
+   
+    </table>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken();
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class=" btn btn-danger" />
+            @Html.ActionLink("Cancel", "Index", "Setup", new { @class = "btn btn-primary" })
+        </div>
+    }
+</div>

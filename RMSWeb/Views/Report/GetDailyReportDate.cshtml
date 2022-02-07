@@ -1,0 +1,95 @@
+﻿@using RMS.Models
+@model ReportModel
+
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script src="~/Scripts/jquery-ui.min.js"></script>
+
+<div class="card">
+    <div class="card-header">
+        <h5><b>Choose Date And Tenant Name</b></h5>
+    </div>
+    <div class="card-body">
+        <div>
+            <form method="post">
+                <div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            <label>Tenant Name</label>
+                            @Html.DropDownListFor(x => x.TenantId, RMS.Utility.Utilities.GetTenant(), "Select Name", new { @class = "form-control", @id = "tenantId" })
+                        </div>
+                        <div class="col-md-4">
+                            <label>From </label>
+
+                            <input type="text" name="FromDate"  class="form-control datepicker" />
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <label>To</label>
+                            <input type="text"  name="ToDate" class="form-control datepicker" />
+                        </div>
+                    </div>
+
+                </div>
+
+                <input type="button" value="See Payment" class="btn btn-primary" onclick="getReport()" />
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="report" style="display:none">
+
+</div>
+
+<div id="Loading image" style="display:none">
+    <img src="~/photo/Spinner-1s-200px.gif" width="100" height="100" style="vertical-align: middle; margin: 50px 100px " />
+</div>
+
+
+
+
+
+<script>
+    
+        $('.datepicker').datepicker({
+        }).datepicker('setDate', 'today');
+   
+
+    var getReport = function () {
+        $('#report').hide();
+        var Id = $('#tenantId').val()
+
+        if (Id == null || Id == "") {
+            toasterror("Name is Required");
+
+        }
+
+        else {
+
+            $('#Loading image').show();
+            $.ajax({
+                url: "/Report/GetDailyReport",
+                data: $('form').serialize(),
+                method: "post",
+                success: function (data) {
+                    console.log("Success!")
+                    $('#report').show();
+                    $('#Loading image').hide();
+                    $('#report').html(data);
+                },
+
+                error: function () {
+                    console.log("Error!");
+                }
+            })
+
+        }
+    };
+
+
+</script>

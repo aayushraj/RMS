@@ -1,0 +1,231 @@
+﻿@using RMS.Models
+@model ReportModel
+
+
+
+
+<div class="card">
+    <div class="card-header">
+        <b>Filters</b>
+    </div>
+    <div class="card-body">
+
+        <div>
+            <form method="post" id="form">
+                <div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            <label>Tenant Name</label>
+                            @*@Html.DropDownListFor(x => x.TenantId, RMS.Utility.Utilities.GetTenant(), "Select Name", new { @class = "form-control", @id = "tenantId" })*@
+                            <select>
+                                <option value=1>Nitish</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 display" id="floorDisplayId">
+                            <label>Floor</label>
+                            @Html.DropDownListFor(x => x.FloorId, new SelectList(string.Empty), new { @class = "form-control", @id = "floorId", @readonly = true })
+                        </div>
+
+                    </div>
+
+                </div>
+
+                @*<input type="button" value="See Last Payment" onclick="GetLastPayment(); dynamicFn("tenantId","2","3","//") class="btn btn-success" />*@
+                <input type="button" value="See Last Payment" onclick="GetLastPayment()" class="btn btn-success" />
+                <input type="button" value=" See Monthly Summary" onclick="MonthlySummary()" class="btn btn-primary" />
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div id="LastPaid" style="display:none">
+
+</div>
+<div id="Monthlysummary" style="display:none">
+
+</div>
+<div id="LoadingImage" style="display:none">
+    <img src="~/photo/Spinner-1s-200px.gif" width="100" height="100" style="vertical-align: middle; margin: 50px 450px" />
+</div>
+@*<div id="Alert" style="display:none">
+        <div id ="toast-container" class="toast-top-right" >
+            <div class="toast toast-error" role="alert" aria-live="assertive">
+                <div class="toast-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    please enter name
+                </div>
+            </div>
+
+        </div>
+    </div>*@
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $('.datepicker').datepicker();
+
+
+
+        $('#tenantId').change(function () {
+
+            var id = $(this).val();
+            var url = "/Common/GetFloor?Id=" + id;
+            $('#floorDisplayId').hide();
+
+            if (id == null || id == "") {
+                $('#floorDisplayId').hide();
+
+                return;
+            }
+
+            $.ajax({
+                type: "get",
+                url: url,
+                dataType: 'json',
+
+                success: function (data) {
+                    /*console.log(data.FloorId);*/
+                    // states contains the JSON formatted list
+                    // of states passed from the controller
+                    $('#floorId').empty();
+                    $('#floorDisplayId').show();
+                    $("#floorId").append('<option value="'
+                        + data + '">'
+                        + data + '</option>');
+
+                },
+                error: function () {
+                    alert("Error");
+                }
+            })
+
+
+        })
+
+    })
+
+
+    var GetLastPayment = function () {
+        $('#LastPaid').hide();
+        $('#Monthlysummary').hide();
+        var Id = $('#tenantId').val();
+        if (Id == null || Id == "") {
+            //$('#Alert').show();
+           /* toastrOptions();*/
+            toasterror("Name is required.")
+        }
+
+        else {
+
+            $('#LoadingImage').show();
+            $.ajax({
+                url: "/Report/GetLastPaid",
+                data: $('#form').serialize(),
+                method: "post",
+                success: function (data) {
+                    $('#Alert').hide();
+                    $('#LastPaid').show();
+                    $('#LoadingImage').hide();
+                    $('#LastPaid').html(data);
+
+                },
+
+                error: function () {
+                    console.log("Error");
+                }
+
+
+            })
+        }
+    }
+
+
+    //$.ajax({
+    //    url: "/Report/GetLastPaid",
+    //    data: $('#form').serialize(),
+    //    method: "post",
+    //    success: function (data) {
+    //        console.log("sucess");
+    //        $('#LastPaid').show();
+    //        $('#LoadingImage').hide();
+    //        $('#LastPaid').html(data);
+
+    //    },
+
+    //    error: function () {
+    //        console.log("Error");
+    //    }
+
+
+    //})
+
+
+    //var dynamicFn = function (htmlId1, htmlId2, htmlId3, url) {
+    //    $(htmlId1).hide();
+    //    $(htmlId2).hide();
+    //    $(htmlId3).show();
+
+
+    //    $.ajax({
+    //        url: url,
+    //        data: $('#form').serialize(),
+    //        method: "post",
+    //        success: function (data) {
+    //            console.log("sucess");
+    //            $('#LastPaid').show();
+    //            $('#LoadingImage').hide();
+    //            $('#LastPaid').html(data);
+
+    //        },
+
+    //        error: function () {
+    //            console.log("Error");
+    //        }
+
+
+    //    })
+    //}
+
+    var MonthlySummary = function () {
+        $('#Monthlysummary').hide();
+        $('#LastPaid').hide();
+        var Id = $('#tenantId').val();
+        if (Id == null || Id == "") {
+            toasterror("Name is Required .")
+        }
+        else {
+
+            $('#LoadingImage').show();
+            $.ajax({
+                url: "/Report/GetMonthlySummary",
+                data: $('#form').serialize(),
+                method: "post",
+
+                success: function (data) {
+                    console.log("sucess");
+                    $('#Monthlysummary').show();
+                    $('#LoadingImage').hide();
+                    $('#Monthlysummary').html(data);
+                },
+
+                error: function () {
+                    toasterror("Error")
+                }
+
+
+            })
+
+        }
+    }
+
+
+</script>
+
