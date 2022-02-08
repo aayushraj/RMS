@@ -2,7 +2,6 @@
 @model ReportModel
 
 @{
-    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
 
 <div class="card">
@@ -17,10 +16,10 @@
                     <div class="row form-group">
                         <div class="col-md-4">
                             <label>Tenant Name</label>
-                            @Html.DropDownListFor(x => x.TenantId, RMS.Utility.Utilities.GetTenant(), "Select Name", new { @class = "form-control", @id = "tenantId" })
-                           @* <select name="TenantId" id="tenantId" class="form-control">
+                            @*@Html.DropDownListFor(x => x.TenantId, RMS.Utility.Utilities.GetTenant(), "Select Name", new { @class = "form-control", @id = "tenantId" })*@
+                            <select name="TenantId" id="tenantId" class="form-control">
                                 <option value=1>Nitish</option>
-                            </select>*@
+                            </select>
                         </div>
 
                         <div class="col-md-4 display" id="floorDisplayId">
