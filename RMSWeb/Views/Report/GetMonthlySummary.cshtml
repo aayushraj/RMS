@@ -2,8 +2,8 @@
 @model ReportModel
 
 
-@*<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>*@
-<script src="~/Scripts/custom.js"></script>
+
+<script src="~/js/custom.js"></script>
 @{
     Layout = null;
     foreach (var item in Model.list)
@@ -70,7 +70,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content MyCSS">
             <div class="modal-header" id="">
-                <p id="fontcolor">Payment Details of @RMS.Utility.Utilities.GetTenantNameOnly(Model.TenantId) </p>
+                <p id="fontcolor">Payment Details of @*@RMS.Utility.Utilities.GetTenantNameOnly(Model.TenantId)*@ </p>
                 <button type="button" class="close Closebutton" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

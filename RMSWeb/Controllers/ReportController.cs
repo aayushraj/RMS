@@ -48,7 +48,6 @@ namespace RMS.Controllers
 
         public IActionResult GetMonthlySummary(ReportModel model)
         {
-
             model = _reportService.MonthlySummary(model);
             return View(model);
         }

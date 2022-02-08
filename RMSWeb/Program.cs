@@ -1,9 +1,15 @@
 using RMS.Repository;
 using RMS.Service;
 using RMS.Utility;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using RMSWeb.Data;
+using RMSWeb.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var connectionString = builder.Configuration.GetConnectionString("RMSWebContextConnection");builder.Services.AddDbContext<RMSWebContext>(options =>
+    options.UseSqlServer(connectionString));builder.Services.AddDefaultIdentity<RMSWebUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<RMSWebContext>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRepositoryService();
@@ -23,7 +29,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -14,7 +14,6 @@ namespace RMS.Service.Report
         ReportModel LastPaid(int? id);
         ReportModel MonthlySummary(ReportModel model);
         ReportModel DailyReport(ReportModel model);
-
     }
     public class ReportService : IReportService
     {

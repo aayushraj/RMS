@@ -54,11 +54,14 @@ var toasterror = function (msg) {
 }
 //Data Table
 //$(document).ready(function () {
-$(function () {
-    $("table").DataTable().destroy();
-    $("table").DataTable({
+//$(function () {
+//    //$("table").DataTable().destroy();
+//    $("table").DataTable({
         
-    })
+//    })
+//});
+$(document).ready(function () {
+    $('table').DataTable();
 });
 //$("#detailtable").DataTable({
 //})
