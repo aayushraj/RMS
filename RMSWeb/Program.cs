@@ -1,5 +1,6 @@
 using RMS.Repository;
 using RMS.Service;
+using RMS.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRepositoryService();
 builder.Services.AddService();
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

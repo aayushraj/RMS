@@ -1,8 +1,9 @@
 ﻿@using RMS.Models
 @model ReportModel
 
-
-
+@{
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
 
 <div class="card">
     <div class="card-header">
@@ -16,10 +17,10 @@
                     <div class="row form-group">
                         <div class="col-md-4">
                             <label>Tenant Name</label>
-                            @*@Html.DropDownListFor(x => x.TenantId, RMS.Utility.Utilities.GetTenant(), "Select Name", new { @class = "form-control", @id = "tenantId" })*@
-                            <select>
+                            @Html.DropDownListFor(x => x.TenantId, RMS.Utility.Utilities.GetTenant(), "Select Name", new { @class = "form-control", @id = "tenantId" })
+                           @* <select name="TenantId" id="tenantId" class="form-control">
                                 <option value=1>Nitish</option>
-                            </select>
+                            </select>*@
                         </div>
 
                         <div class="col-md-4 display" id="floorDisplayId">
@@ -67,22 +68,18 @@
 
 
 
-
 <script>
     $(document).ready(function () {
-        $('.datepicker').datepicker();
-
-
+        //$('.datepicker').datepicker();
 
         $('#tenantId').change(function () {
-
             var id = $(this).val();
             var url = "/Common/GetFloor?Id=" + id;
             $('#floorDisplayId').hide();
 
             if (id == null || id == "") {
+                debugger;
                 $('#floorDisplayId').hide();
-
                 return;
             }
 
@@ -92,9 +89,6 @@
                 dataType: 'json',
 
                 success: function (data) {
-                    /*console.log(data.FloorId);*/
-                    // states contains the JSON formatted list
-                    // of states passed from the controller
                     $('#floorId').empty();
                     $('#floorDisplayId').show();
                     $("#floorId").append('<option value="'
@@ -103,7 +97,7 @@
 
                 },
                 error: function () {
-                    alert("Error");
+                     toasterror("Error");
                 }
             })
 
@@ -117,14 +111,14 @@
         $('#LastPaid').hide();
         $('#Monthlysummary').hide();
         var Id = $('#tenantId').val();
-        if (Id == null || Id == "") {
-            //$('#Alert').show();
-           /* toastrOptions();*/
+        
+        if (Id == null || Id == "") 
+        {
             toasterror("Name is required.")
         }
 
-        else {
-
+        else 
+        {
             $('#LoadingImage').show();
             $.ajax({
                 url: "/Report/GetLastPaid",
@@ -139,7 +133,7 @@
                 },
 
                 error: function () {
-                    console.log("Error");
+                    toasterror("asd");
                 }
 
 

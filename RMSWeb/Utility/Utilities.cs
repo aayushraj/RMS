@@ -2,13 +2,19 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using RMS.Models;
+using RMS.Repository;
+using System.Data;
 
 namespace RMS.Utility
 {
-    public class Utilities
+    public static class Utilities
     {
-        private static readonly string connString = System.Configuration.ConfigurationManager.ConnectionStrings["DBstring"].ToString();
-
+        private static IDapperService _dapperService;
+        private static string? connString;
+        public static void UtilitiesService(IDapperService dapperService)
+        {
+            _dapperService = dapperService;
+        }
         public static IEnumerable<SelectListItem> GetState()
         {
             string sql = @"SELECT * FROM RMS_INFO_STATE ";
@@ -44,23 +50,26 @@ namespace RMS.Utility
         public static IEnumerable<SelectListItem> GetTenant()
         {
             string sql = @"SELECT id,FirstName,FloorNumber FROM RMS_INFO ";
-            using (SqlConnection con = new SqlConnection(connString))
-            {
-                con.Open();
-                SqlCommand cmd = new SqlCommand(sql, con);
-                SqlDataReader rd = cmd.ExecuteReader();
-                List<TenantInfoModel> list = new List<TenantInfoModel>();
-                while (rd.Read())
-                {
+            var list = _dapperService.Query<TenantInfoModel>(sql).ToList();
+            //using (IDbConnection con = new SqlConnection(connString))
+            //{
+            //    con.Open();
+            //    SqlCommand cmd = new SqlCommand(sql, con);
+            //    SqlDataReader rd = cmd.ExecuteReader();
+            //    List<TenantInfoModel> list = new List<TenantInfoModel>();
+            //    list = 
+            //    while (rd.Read())
+            //    {
 
-                    TenantInfoModel model = new TenantInfoModel();
-                    model.Id = Convert.ToInt32(rd["Id"].ToString());
-                    model.FirstName = rd["FirstName"].ToString();
-                    model.FloorNumber = Convert.ToInt32(rd["FloorNumber"].ToString());
-                    list.Add(model);
-                }
-                return new SelectList(list, "Id", "FirstName", "FloorNumber");
-            }
+            //        TenantInfoModel model = new TenantInfoModel();
+            //        model.Id = Convert.ToInt32(rd["Id"].ToString());
+            //        model.FirstName = rd["FirstName"].ToString();
+            //        model.FloorNumber = Convert.ToInt32(rd["FloorNumber"].ToString());
+            //        list.Add(model);
+            //    }
+            //}
+            return new SelectList(list, "Id", "FirstName", "FloorNumber");
+
         }
 
         public static int GetFloor(int Id)
