@@ -1,9 +1,6 @@
 ﻿@using RMS.Models
 @model ReportModel
 
-@{
-}
-
 <div class="card">
     <div class="card-header">
         <b>Filters</b>
@@ -12,23 +9,19 @@
 
         <div>
             <form method="post" id="form">
-                <div>
-                    <div class="row form-group">
+                <div class="form-group">
+                    <div class="row">
                         <div class="col-md-4">
                             <label>Tenant Name</label>
-                            @*@Html.DropDownListFor(x => x.TenantId, RMS.Utility.Utilities.GetTenant(), "Select Name", new { @class = "form-control", @id = "tenantId" })*@
-                            <select name="TenantId" id="tenantId" class="form-control">
-                                <option value=1>Nitish</option>
-                            </select>
+                            <select id="tenantId" class="form-control" asp-for="TenantId" asp-items="@(new SelectList(ViewBag.Tenants,"Id","Name"))"></select>
                         </div>
-
+                    </div>
+                    <div class="row">
                         <div class="col-md-4 display" id="floorDisplayId">
                             <label>Floor</label>
-                            @Html.DropDownListFor(x => x.FloorId, new SelectList(string.Empty), new { @class = "form-control", @id = "floorId", @readonly = true })
+                            <label asp-for="FloorId" id="floorId"></label>
                         </div>
-
                     </div>
-
                 </div>
 
                 @*<input type="button" value="See Last Payment" onclick="GetLastPayment(); dynamicFn("tenantId","2","3","//") class="btn btn-success" />*@
@@ -43,41 +36,23 @@
 
 
 <div id="LastPaid" style="display:none">
-
 </div>
 <div id="Monthlysummary" style="display:none">
-
 </div>
 <div id="LoadingImage" style="display:none">
     <img src="~/photo/Spinner-1s-200px.gif" width="100" height="100" style="vertical-align: middle; margin: 50px 450px" />
 </div>
-@*<div id="Alert" style="display:none">
-        <div id ="toast-container" class="toast-top-right" >
-            <div class="toast toast-error" role="alert" aria-live="assertive">
-                <div class="toast-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body">
-                    please enter name
-                </div>
-            </div>
-
-        </div>
-    </div>*@
-
-
 
 <script>
     $(document).ready(function () {
-        //$('.datepicker').datepicker();
+        $('#floorDisplayId').hide();
 
         $('#tenantId').change(function () {
             var id = $(this).val();
-            var url = "/Common/GetFloor?Id=" + id;
+            var url = "/TenantInfo/GetById?id=" + id;
             $('#floorDisplayId').hide();
 
             if (id == null || id == "") {
-                debugger;
                 $('#floorDisplayId').hide();
                 return;
             }
@@ -90,19 +65,13 @@
                 success: function (data) {
                     $('#floorId').empty();
                     $('#floorDisplayId').show();
-                    $("#floorId").append('<option value="'
-                        + data + '">'
-                        + data + '</option>');
-
+                    $("#floorId").append(data);
                 },
                 error: function () {
                      toasterror("Error");
                 }
             })
-
-
         })
-
     })
 
 
@@ -110,32 +79,30 @@
         $('#LastPaid').hide();
         $('#Monthlysummary').hide();
         var Id = $('#tenantId').val();
-        
-        if (Id == null || Id == "") 
+
+        if (Id == null || Id == "")
         {
             toasterror("Name is required.")
         }
 
-        else 
+        else
         {
             $('#LoadingImage').show();
             $.ajax({
                 url: "/Report/GetLastPaid",
                 data: $('#form').serialize(),
                 method: "post",
+                
                 success: function (data) {
                     $('#Alert').hide();
                     $('#LastPaid').show();
                     $('#LoadingImage').hide();
                     $('#LastPaid').html(data);
-
                 },
 
-                error: function () {
-                    toasterror("asd");
+                error: function (response) {
+                    toasterror(response.status);
                 }
-
-
             })
         }
     }
@@ -191,11 +158,12 @@
         $('#Monthlysummary').hide();
         $('#LastPaid').hide();
         var Id = $('#tenantId').val();
+
         if (Id == null || Id == "") {
             toasterror("Name is Required .")
         }
-        else {
 
+        else {
             $('#LoadingImage').show();
             $.ajax({
                 url: "/Report/GetMonthlySummary",
@@ -203,7 +171,6 @@
                 method: "post",
 
                 success: function (data) {
-                    console.log("sucess");
                     $('#Monthlysummary').show();
                     $('#LoadingImage').hide();
                     $('#Monthlysummary').html(data);
@@ -212,13 +179,8 @@
                 error: function () {
                     toasterror("Error")
                 }
-
-
             })
-
         }
     }
-
-
 </script>
 

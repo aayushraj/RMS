@@ -1,15 +1,20 @@
 ﻿using RMS.Service.Report;
 using Microsoft.AspNetCore.Mvc;
 using RMS.Models;
+using RMS.Service.TenantInfo;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Threading.Tasks;
 
 namespace RMS.Controllers
 {
     public class ReportController : Controller
     {
         private readonly IReportService _reportService;
-        public ReportController(IReportService reportService)
+        private readonly ITenantInfoService _tenantInfoService;
+        public ReportController(IReportService reportService, ITenantInfoService tenantInfoService)
         {
             _reportService = reportService;
+            _tenantInfoService = tenantInfoService;
         }
         public IActionResult MonthlyReport()
         {
@@ -18,8 +23,8 @@ namespace RMS.Controllers
 
         public IActionResult GetMonthlyReport(ReportModel model)
         {
-            model.list = _reportService.Getlist(model);
-            return View(model);
+            var list =  _reportService.Getlist(model);
+            return View(list);
         }
 
         public IActionResult GetDailyReportDate()
@@ -35,15 +40,22 @@ namespace RMS.Controllers
         }
 
         public IActionResult GetTenant()
+
         {
+            ViewBag.Tenants = _tenantInfoService
+                                    .GetList()
+                                    .Select(x => new
+                                    {
+                                        Id = x.Id,
+                                        Name = string.Format("{0} {1} {2}", x.FirstName, x.MiddleName, x.LastName)
+                                    }).ToList();
             return View();
         }
 
         public IActionResult GetLastPaid(ReportModel model)
         {
-
-            model = _reportService.LastPaid(model.TenantId);
-            return View(model);
+            var lastPayment = _reportService.LastPaid(model.TenantId);
+            return View(lastPayment);
         }
 
         public IActionResult GetMonthlySummary(ReportModel model)

@@ -14,17 +14,16 @@ namespace RMS.Service.TenantInfo
 
     public class TenantInfoService : ITenantInfoService
     {
-        private readonly ITenantInfoRepository repo;
-
-        public TenantInfoService()
+        private readonly ITenantInfoRepository _tenantInfoRepository;
+        public TenantInfoService(ITenantInfoRepository tenantInfoRepository)
         {
-            repo = new TenantInfoRepository();
+            _tenantInfoRepository = tenantInfoRepository;
         }
 
         public TenantInfoModel Create(TenantInfoModel model)
         {
             model.flag = 0;
-            var isCreate = repo.Create(model);
+            var isCreate = _tenantInfoRepository.Create(model);
             if (isCreate)
             {
                 model.flag = 1;
@@ -44,13 +43,13 @@ namespace RMS.Service.TenantInfo
 
         public TenantInfoModel GetById(int? id)
         {
-            return repo.GetById(id);
+            return _tenantInfoRepository.GetById(id);
            
         }
 
         public TenantInfoModel Edit(TenantInfoModel model)
         {
-            var Edited = repo.Edit(model);
+            var Edited = _tenantInfoRepository.Edit(model);
 
             if(Edited)
             {
@@ -71,13 +70,13 @@ namespace RMS.Service.TenantInfo
 
         public List<TenantInfoModel> GetList()
         {
-           var list= repo.GetList();
+           var list= _tenantInfoRepository.GetList();
            return list;
         }
 
         public TenantInfoModel Delete(TenantInfoModel model)
         {
-            var Deleted = repo.Delete(model);
+            var Deleted = _tenantInfoRepository.Delete(model);
 
             if (Deleted)
             {

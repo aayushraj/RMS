@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using RMS.Models;
 
 namespace RMS.Repository.TenantInfo
@@ -18,13 +19,19 @@ namespace RMS.Repository.TenantInfo
 
     public class TenantInfoRepository : ITenantInfoRepository
     {
-        private string connString = ConfigurationManager.ConnectionStrings["DBstring"].ToString();
-        
+        //private string connString = ConfigurationManager.ConnectionStrings["DBstring"].ToString();
+        private readonly IDbConnection _connection;
+        private readonly IDapperService _dapperService;
+        public TenantInfoRepository(IDapperService dapperService, IDbConnection connection)
+        {
+            _connection=connection;
+            _dapperService = dapperService;
+        }
 
         public bool Create(TenantInfoModel model)
         {
-          
-            SqlConnection con = new SqlConnection(connString);
+            
+            SqlConnection con = new SqlConnection(_connection.ConnectionString.ToString());
             // SqlTransaction transaction = con.BeginTransaction();
             con.Open();
             SqlTransaction transaction = con.BeginTransaction();
@@ -88,45 +95,50 @@ namespace RMS.Repository.TenantInfo
 
         public List<TenantInfoModel> GetList()
         {
-
             string sql = @"select rf.id,rf.FirstName,rf.LastName,rf.Address,rf.Contact,rf.City,rf.WardNo,rf.FloorNumber,rf.Email,D.DistrictName,r.StateName   
                             from  RMS_INFO rf 
                             inner join RMS_INFO_STATE as r on r.StateId = rf.StateId
                             inner join RMS_INFO_District as D on D.DistrictId = rf.District  where status = 1";
-
-            SqlConnection con = new SqlConnection(connString);
-
-            SqlCommand Command = new SqlCommand(sql, con);
-
-            con.Open();
-
-            SqlDataReader dataReader = Command.ExecuteReader();
-
-            List<TenantInfoModel> list = new List<TenantInfoModel>();
-
-            while (dataReader.Read())
+            using (var con = _connection)
             {
-                TenantInfoModel model = new TenantInfoModel();
-
-                model.Id = Convert.ToInt32(dataReader["id"].ToString());
-                model.FirstName = dataReader["Firstname"].ToString();
-                model.LastName = dataReader["Lastname"].ToString();
-                model.Address = dataReader["Address"].ToString();
-                model.Contact = Convert.ToDecimal(dataReader["Contact"].ToString());
-                model.StateName = dataReader["StateName"].ToString();
-                model.FloorNumber = Convert.ToInt32(dataReader["FloorNumber"].ToString());
-                model.City = dataReader["City"].ToString();
-                model.WardNo = Convert.ToInt32(dataReader["WardNo"].ToString());
-                model.Email = dataReader["Email"].ToString();
-                model.DistrictName = dataReader["DistrictName"].ToString();
-
-                list.Add(model);
+                con.Open();
+                var list = _dapperService.Query<TenantInfoModel>(sql);
+                return list;
             }
+            #region Using SQLConnection for Reference
+            //SqlConnection con = new SqlConnection(connString);
 
-            con.Close();
+            //SqlCommand Command = new SqlCommand(sql, con);
 
-            return list; 
-            
+            //con.Open();
+
+            //SqlDataReader dataReader = Command.ExecuteReader();
+
+            //List<TenantInfoModel> list = new List<TenantInfoModel>();
+
+            //while (dataReader.Read())
+            //{
+            //    TenantInfoModel model = new TenantInfoModel();
+
+            //    model.Id = Convert.ToInt32(dataReader["id"].ToString());
+            //    model.FirstName = dataReader["Firstname"].ToString();
+            //    model.LastName = dataReader["Lastname"].ToString();
+            //    model.Address = dataReader["Address"].ToString();
+            //    model.Contact = Convert.ToDecimal(dataReader["Contact"].ToString());
+            //    model.StateName = dataReader["StateName"].ToString();
+            //    model.FloorNumber = Convert.ToInt32(dataReader["FloorNumber"].ToString());
+            //    model.City = dataReader["City"].ToString();
+            //    model.WardNo = Convert.ToInt32(dataReader["WardNo"].ToString());
+            //    model.Email = dataReader["Email"].ToString();
+            //    model.DistrictName = dataReader["DistrictName"].ToString();
+
+            //    list.Add(model);
+            //}
+
+            //con.Close();
+
+            //return list; 
+            #endregion
         }
 
         public TenantInfoModel GetById(int? id)
@@ -137,7 +149,7 @@ namespace RMS.Repository.TenantInfo
                             inner join RMS_INFO_District as D on D.DistrictId = rf.District  where id=@Id ";
             string sql1 = @"	select * from FamilyInfo where ParentID = @id";
 
-            SqlConnection con = new SqlConnection(connString);
+            SqlConnection con = new SqlConnection(_connection.ConnectionString);
             SqlCommand cmd = new SqlCommand(sql, con);
             cmd.Parameters.AddWithValue("id", id);
 
@@ -181,7 +193,7 @@ namespace RMS.Repository.TenantInfo
                 fmodel.LastName = dataReader1["LastName"].ToString();
                 fmodel.Gender = dataReader1["Gender"].ToString();
                 fmodel.Relationship = dataReader1["Relationship"].ToString();
-                fmodel.DOB = Convert.ToDateTime(dataReader1["DOB"].ToString());
+                //fmodel.DOB = Convert.ToDateTime(dataReader1["DOB"].ToString());
                 list.Add(fmodel);
 
 
@@ -195,7 +207,7 @@ namespace RMS.Repository.TenantInfo
 
         public bool Edit(TenantInfoModel model)
         {
-            SqlConnection con = new SqlConnection(connString);
+            SqlConnection con = new SqlConnection(_connection.ConnectionString);
             con.Open();
 
             SqlTransaction transaction = con.BeginTransaction();
@@ -259,7 +271,7 @@ namespace RMS.Repository.TenantInfo
 
         public bool Delete(TenantInfoModel model)
         {
-            SqlConnection con = new SqlConnection(connString);
+            SqlConnection con = new SqlConnection(_connection.ConnectionString);
             con.Open();
             SqlTransaction transaction = con.BeginTransaction();
             try

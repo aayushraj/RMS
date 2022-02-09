@@ -47,9 +47,16 @@ var toastSuccess = function (msg) {
     toastr.success(msg)
 }
 
-var toasterror = function (msg) {
+var toasterror = function (statusCode) {
     toastrOptions();
-    toastr.error(msg)
+    var msg = "";
+    switch (statusCode) {
+        case 500:
+            msg = "Internal Server Error"
+            break;
+        default: break;
+    }
+    toastr.error(msg);
 
 }
 //Data Table

@@ -27,7 +27,6 @@ namespace RMS.Service.Report
         {
             var list = _reportRepository.Getlist(model);
             return list;
-
         }
 
         public ReportModel LastPaid(int? id)
@@ -62,11 +61,7 @@ namespace RMS.Service.Report
                     model1.TotalPaid = TotalPaid;
                     list.Add(model1);
                 }
-
-
-
             }
-
             model.list = list;
             return model;
         }
@@ -74,7 +69,6 @@ namespace RMS.Service.Report
         public ReportModel DailyReport(ReportModel model)
         {
             model.list = _reportRepository.DailyReport(model);
-
             return model;
         }
     }

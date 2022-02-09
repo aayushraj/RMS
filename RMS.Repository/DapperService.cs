@@ -11,22 +11,21 @@ namespace RMS.Repository
     {
         List<T> Query<T>(string sql);
         List<T> Query<T>(string sql, DynamicParameters param);
+        Task<List<T>> QueryAsync<T>(string sql, DynamicParameters param);
         int Execute(string sql, DynamicParameters param);
         DynamicParameters AddParam(object param);
     }
     public class DapperService : IDapperService
     {
-        private readonly IConfiguration _configuration;
-        private static string? connstring;
-        public DapperService(IConfiguration configuration)
+        private readonly IDbConnection _connection;
+        public DapperService(IDbConnection connection)
         {
-            _configuration = configuration;
-            connstring = _configuration.GetConnectionString("DBString");
+            _connection = connection;
         }
 
         public List<T> Query<T>(string sql)
         {
-            using (IDbConnection con = new SqlConnection(connstring))
+            using (var con = _connection)
             {
                 con.Open();
                 return con.Query<T>(sql).ToList();
@@ -35,43 +34,46 @@ namespace RMS.Repository
 
         public List<T> Query<T>(string sql, DynamicParameters param)
         {
-            using (IDbConnection con = new SqlConnection(connstring))
+            using (var con = _connection)
             {
                 con.Open();
                 return con.Query<T>(sql, param).ToList();
             }
         }
+        public async Task<List<T>> QueryAsync<T>(string sql, DynamicParameters param)
+        {
+            using (var con = _connection)
+            {
+                con.Open();
+                return (List<T>)await con.QueryAsync<T>(sql, param);
+            }
+        }
 
         public int Execute(string sql, DynamicParameters param)
         {
-            using (IDbConnection con = new SqlConnection(connstring))
+            using (var con = _connection)
             {
                 con.Open();
                 return con.Execute(sql, param);
             }
         }
 
-        public DynamicParameters AddParam(object param)
+        public DynamicParameters AddParam(object obj)
         {
-            // param.GetType().GetProperties();
-
-            DynamicParameters tset = new DynamicParameters();
-            if (param.GetType().IsValueType)
+            DynamicParameters param = new();
+            if (obj.GetType().IsValueType)
             {
-                tset.Add("id", param);
+                param.Add("id", obj);
 
-                return tset;
+                return param;
             }
 
-
-            foreach (var item in param.GetType().GetProperties())
+            foreach (var item in obj.GetType().GetProperties())
             {
-                tset.Add(item.Name, item.GetValue(param));
+                param.Add(item.Name, item.GetValue(obj));
             }
 
-            return tset;
-
-
+            return param;
         }
 
     }
