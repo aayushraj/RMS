@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RMS.Service.Helpers;
 using RMS.Service.Report;
 using RMS.Service.TenantInfo;
 using System;
@@ -14,6 +15,7 @@ namespace RMS.Service
         public static void AddService(this IServiceCollection ser)
         {
             ser.AddScoped<IReportService, ReportService>();
+            ser.AddScoped<ICommonUtilityService, CommonUtilityService>();
             //ser.AddScoped<IPaymentServices, PaymentServices>();
             ser.AddScoped<ITenantInfoService, TenantInfoService>();
             ser.AddScoped<IFamilyInfoService, FamilyInfoService>();

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RMS.Models;
+using RMS.Service.Helpers;
 using RMS.Service.TenantInfo;
 //using RMS.Utility;
 namespace RMS.Controllers
@@ -7,10 +8,12 @@ namespace RMS.Controllers
     public class TenantInfoController : Controller
     {
         private readonly ITenantInfoService _tenantInfoService;
+        private readonly ICommonUtilityService _commonUtilityService;
 
-        public TenantInfoController(ITenantInfoService tenantInfoService)
+        public TenantInfoController(ITenantInfoService tenantInfoService, ICommonUtilityService commonUtilityService)
         {
             _tenantInfoService = tenantInfoService;
+            _commonUtilityService = commonUtilityService;       
         }
         public IActionResult Index()
         {
@@ -21,6 +24,8 @@ namespace RMS.Controllers
 
         public IActionResult Create()
         {
+            ViewBag.GetStates = _commonUtilityService.GetStates().ToList();
+            ViewBag.GetRelationships = _commonUtilityService.GetRelationship().ToList();
             return View();
         }
 
@@ -41,6 +46,7 @@ namespace RMS.Controllers
 
         public IActionResult Edit(int? id)
         {
+            ViewBag.GetState = _commonUtilityService.GetStates();
             TenantInfoModel model = new TenantInfoModel();
             model = _tenantInfoService.GetById(id);
             return View(model);

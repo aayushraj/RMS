@@ -30,67 +30,91 @@ namespace RMS.Repository.TenantInfo
 
         public bool Create(TenantInfoModel model)
         {
-            
-            SqlConnection con = new SqlConnection(_connection.ConnectionString.ToString());
-            // SqlTransaction transaction = con.BeginTransaction();
-            con.Open();
-            SqlTransaction transaction = con.BeginTransaction();
+            //string tenantInsertSql = @"Insert into RMS_INfO values(@FirstName , @LastName , @Address,@Contact,@FloorNumber,@StateId,@City,@WardNo,@Email,@District,@Status,@MiddleName) Select Scope_Identity()";
 
-            try
-            {
-                string sql = @"Insert into RMS_INfO values(@FirstName , @LastName , @Address,@Contact,@FloorNumber,@StateId,@City,@WardNo,@Email,@District,@Status,@MiddleName) Select Scope_Identity()";
-                SqlCommand tenantCmd = new SqlCommand(sql, con, transaction);
-
-                tenantCmd.Parameters.AddWithValue("FirstName", model.FirstName);
-                tenantCmd.Parameters.AddWithValue("LastName", model.LastName);
-                tenantCmd.Parameters.AddWithValue("Address", model.Address);
-                tenantCmd.Parameters.AddWithValue("Contact", model.Contact);
-                tenantCmd.Parameters.AddWithValue("FloorNumber", model.FloorNumber);
-                tenantCmd.Parameters.AddWithValue("StateId", model.State);
-                tenantCmd.Parameters.AddWithValue("City", model.City);
-                tenantCmd.Parameters.AddWithValue("WardNo", model.WardNo);
-                tenantCmd.Parameters.AddWithValue("Email", model.Email);
-                tenantCmd.Parameters.AddWithValue("District", model.District);
-                tenantCmd.Parameters.AddWithValue("Status", 1);
-                tenantCmd.Parameters.AddWithValue("MiddleName", model.MiddleName);
-
-                int last_insertId = int.Parse(tenantCmd.ExecuteScalar().ToString());
+            //using (var con = _connection)
+            //{
+            //    con.Open();
+            //    con.BeginTransaction();
 
 
-                foreach (var item in model.FamilyList)
-                {
-                    string sql2 = @"Insert into FamilyInfo Values(@FirstName,@LastName,@Address,@Contact,@FloorId,@ParentId,@gender,@Relationship,@Dob,@Status)";
+            //    SqlCommand tenantCmd = new SqlCommand(sql,con, transaction);
 
-                    SqlCommand cmd = new SqlCommand(sql2, con,transaction);
+            //    tenantCmd.Parameters.AddWithValue("FirstName", model.FirstName);
+            //    tenantCmd.Parameters.AddWithValue("LastName", model.LastName);
+            //    tenantCmd.Parameters.AddWithValue("Address", model.Address);
+            //    tenantCmd.Parameters.AddWithValue("Contact", model.Contact);
+            //    tenantCmd.Parameters.AddWithValue("FloorNumber", model.FloorNumber);
+            //    tenantCmd.Parameters.AddWithValue("StateId", model.State);
+            //    tenantCmd.Parameters.AddWithValue("City", model.City);
+            //    tenantCmd.Parameters.AddWithValue("WardNo", model.WardNo);
+            //    tenantCmd.Parameters.AddWithValue("Email", model.Email);
+            //    tenantCmd.Parameters.AddWithValue("District", model.District);
+            //    tenantCmd.Parameters.AddWithValue("Status", 1);
+            //    tenantCmd.Parameters.AddWithValue("MiddleName", model.MiddleName);
 
-                    cmd.Parameters.AddWithValue("FirstName", item.FirstName);
-                    cmd.Parameters.AddWithValue("LastName", item.LastName);
-                    cmd.Parameters.AddWithValue("Address", model.Address);
-                    cmd.Parameters.AddWithValue("Contact", model.Contact);
-                    cmd.Parameters.AddWithValue("FloorId", model.FloorNumber);
-                    cmd.Parameters.AddWithValue("ParentID", last_insertId);
-                    cmd.Parameters.AddWithValue("gender", item.Gender);
-                    cmd.Parameters.AddWithValue("Relationship", item.Relationship);
-                    cmd.Parameters.AddWithValue("Dob", item.DOB);
-                    cmd.Parameters.AddWithValue("Status", 1);
+            //}
+            //SqlConnection con = new SqlConnection(_connection.ConnectionString.ToString());
+            //// SqlTransaction transaction = con.BeginTransaction();
+            //con.Open();
+            //SqlTransaction transaction = con.BeginTransaction();
 
-                    cmd.ExecuteNonQuery();
-                }
+            //try
+            //{
+            //    string sql = @"Insert into RMS_INfO values(@FirstName , @LastName , @Address,@Contact,@FloorNumber,@StateId,@City,@WardNo,@Email,@District,@Status,@MiddleName) Select Scope_Identity()";
+            //    SqlCommand tenantCmd = new SqlCommand(sql, con, transaction);
 
-                
-                transaction.Commit();
-                con.Close();
-                return true;
-            }
-            
+            //    tenantCmd.Parameters.AddWithValue("FirstName", model.FirstName);
+            //    tenantCmd.Parameters.AddWithValue("LastName", model.LastName);
+            //    tenantCmd.Parameters.AddWithValue("Address", model.Address);
+            //    tenantCmd.Parameters.AddWithValue("Contact", model.Contact);
+            //    tenantCmd.Parameters.AddWithValue("FloorNumber", model.FloorNumber);
+            //    tenantCmd.Parameters.AddWithValue("StateId", model.State);
+            //    tenantCmd.Parameters.AddWithValue("City", model.City);
+            //    tenantCmd.Parameters.AddWithValue("WardNo", model.WardNo);
+            //    tenantCmd.Parameters.AddWithValue("Email", model.Email);
+            //    tenantCmd.Parameters.AddWithValue("District", model.District);
+            //    tenantCmd.Parameters.AddWithValue("Status", 1);
+            //    tenantCmd.Parameters.AddWithValue("MiddleName", model.MiddleName);
 
-            catch(Exception ex)
-            {
-                transaction.Rollback();
-                return false;
+            //    int last_insertId = int.Parse(tenantCmd.ExecuteScalar().ToString());
 
 
-            }
+            //    foreach (var item in model.FamilyList)
+            //    {
+            //        string sql2 = @"Insert into FamilyInfo Values(@FirstName,@LastName,@Address,@Contact,@FloorId,@ParentId,@gender,@Relationship,@Dob,@Status)";
+
+            //        SqlCommand cmd = new SqlCommand(sql2, con,transaction);
+
+            //        cmd.Parameters.AddWithValue("FirstName", item.FirstName);
+            //        cmd.Parameters.AddWithValue("LastName", item.LastName);
+            //        cmd.Parameters.AddWithValue("Address", model.Address);
+            //        cmd.Parameters.AddWithValue("Contact", model.Contact);
+            //        cmd.Parameters.AddWithValue("FloorId", model.FloorNumber);
+            //        cmd.Parameters.AddWithValue("ParentID", last_insertId);
+            //        cmd.Parameters.AddWithValue("gender", item.Gender);
+            //        cmd.Parameters.AddWithValue("Relationship", item.Relationship);
+            //        cmd.Parameters.AddWithValue("Dob", item.DOB);
+            //        cmd.Parameters.AddWithValue("Status", 1);
+
+            //        cmd.ExecuteNonQuery();
+            //    }
+
+
+            //    transaction.Commit();
+            //    con.Close();
+            //    return true;
+            //}
+
+
+            //catch(Exception ex)
+            //{
+            //    transaction.Rollback();
+            //    return false;
+
+
+            //}
+            return true;
     }
 
         public List<TenantInfoModel> GetList()
@@ -143,14 +167,14 @@ namespace RMS.Repository.TenantInfo
 
         public TenantInfoModel GetById(int? id)
         {
-            string sql = @"select rf.id,rf.FirstName,rf.LastName,rf.Address,rf.Contact,rf.City,rf.FloorNumber,rf.WardNo,rf.Email,rf.MiddleName,D.DistrictName,r.StateName   
+            string getTenantSql = @"select rf.id,rf.FirstName,rf.LastName,rf.Address,rf.Contact,rf.City,rf.FloorNumber,rf.WardNo,rf.Email,rf.MiddleName,D.DistrictName,r.StateName   
                             from  RMS_INFO rf 
                             inner join RMS_INFO_STATE as r on r.StateId = rf.StateId
                             inner join RMS_INFO_District as D on D.DistrictId = rf.District  where id=@Id ";
             string sql1 = @"	select * from FamilyInfo where ParentID = @id";
 
             SqlConnection con = new SqlConnection(_connection.ConnectionString);
-            SqlCommand cmd = new SqlCommand(sql, con);
+            SqlCommand cmd = new SqlCommand(getTenantSql, con);
             cmd.Parameters.AddWithValue("id", id);
 
             SqlCommand familyCmd = new SqlCommand(sql1, con);

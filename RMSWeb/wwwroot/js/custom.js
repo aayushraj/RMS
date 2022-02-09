@@ -1,4 +1,9 @@
-﻿var dynamicFn = function (htmlId1, htmlId2, htmlId3, url) {
+﻿$(document).ready(function () {
+    $('table').DataTable();
+    $('select').select2();
+});
+
+var dynamicFn = function (htmlId1, htmlId2, htmlId3, url) {
     $(htmlId1).hide();
     $(htmlId2).hide();
     $(htmlId3).show();
@@ -59,22 +64,5 @@ var toasterror = function (statusCode) {
     toastr.error(msg);
 
 }
-//Data Table
-//$(document).ready(function () {
-//$(function () {
-//    //$("table").DataTable().destroy();
-//    $("table").DataTable({
-        
-//    })
-//});
-$(document).ready(function () {
-    $('table').DataTable();
-});
-//$("#detailtable").DataTable({
-//})
-
-
-//})
-
 
 
