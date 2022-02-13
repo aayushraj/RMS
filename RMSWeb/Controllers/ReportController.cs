@@ -4,6 +4,7 @@ using RMS.Models;
 using RMS.Service.TenantInfo;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
+using RMS.Service.Helpers;
 
 namespace RMS.Controllers
 {
@@ -40,7 +41,6 @@ namespace RMS.Controllers
         }
 
         public IActionResult GetTenant()
-
         {
             ViewBag.Tenants = _tenantInfoService
                                     .GetList()

@@ -1,25 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RMS.Models.Common;
-using RMS.Repository;
+using RMS.Service.Helpers;
 
 namespace RMS.Controllers
 {
     public class CommonController : Controller
     {
-        //private readonly IDapperService _dapperService;
-        //public CommonController(IDapperService dapperService)
-        //{
-        //    _dapperService = dapperService;
-        //}
+        private readonly ICommonUtilityService _commonUtilityService;
+        public CommonController(ICommonUtilityService commonUtilityService)
+        {
+            _commonUtilityService = commonUtilityService;   
+        }
         //// GET: Common
-        //public IActionResult GetDistrict(int stateId)
-        //{
-        //    var districtList = Utilities.GetDistrict(stateId);
+        public IActionResult GetDistrict(int stateId)
+        {
+            var districtList = _commonUtilityService.GetDistricts(stateId);
+            ViewData["GetDistricts"] = districtList.Select(x => new
+            {
+                x.Value,
+                x.Text
+            }).ToList();
+            return Json(new SelectList(districtList, "Value", "Text"));
 
-        //    return Json(new SelectList(districtList, "Value", "Text"));
-
-        //}
+        }
 
         //public IActionResult GetFloor(int Id)
         //{
@@ -33,6 +37,6 @@ namespace RMS.Controllers
         //    var list = _dapperService.Query<DDLModel>(sql);
         //    return new SelectList(list, "Key", "Value");
         //}
-            
+
     }
 }

@@ -13,7 +13,7 @@
                     <div class="row form-group">
                         <div class="col-md-4">
                             <label>Tenant Name</label>
-                            @Html.DropDownListFor(x => x.TenantId, RMS.Utility.Utilities.GetTenant(), "Select Name", new { @class = "form-control", @id = "tenantId" })
+                            <select id = "tenantId" class="form-control" asp-for="TenantId" asp-items="@ViewBag.GetTenant"></select>
                         </div>
 
                         <div class="col-md-4">

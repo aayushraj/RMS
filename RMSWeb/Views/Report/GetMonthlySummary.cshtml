@@ -28,7 +28,7 @@
 
                 <thead>
                     <tr class="danger">
-                        <th>Month</th>
+                        @*<th>Month</th>*@
                         <th>Paid Amount</th>
                         <th>PaymentDate</th>
                         <th>DueAmount</th>
@@ -45,7 +45,7 @@
                     @foreach (var item in Model.list)
                     {
                         <tr class="info" onclick="MonthlyDetails(@item.From,@item.To,@Model.TenantId)" data-toggle="modal" data-target="#modal-lg">
-                            <td>@RMS.Utility.Utilities.GetMonth(Convert.ToInt32(item.From))</td>
+                            @*<td>@RMS.Utility.Utilities.GetMonth(Convert.ToInt32(item.From))</td>*@
                             <td>@item.TotalPaid</td>
                             <td>@item.PaymentDate</td>
                             <td>@item.DueAmount</td>
@@ -63,9 +63,7 @@
     </div>
 </div>
 
-@*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
-        Launch Primary Modal
-    </button>*@
+
 <div class="modal fade" id="modal-lg">
     <div class="modal-dialog modal-lg">
         <div class="modal-content MyCSS">

@@ -13,7 +13,7 @@ namespace RMS.Controllers
         public TenantInfoController(ITenantInfoService tenantInfoService, ICommonUtilityService commonUtilityService)
         {
             _tenantInfoService = tenantInfoService;
-            _commonUtilityService = commonUtilityService;       
+            _commonUtilityService = commonUtilityService;
         }
         public IActionResult Index()
         {
@@ -24,8 +24,19 @@ namespace RMS.Controllers
 
         public IActionResult Create()
         {
-            ViewBag.GetStates = _commonUtilityService.GetStates().ToList();
-            ViewBag.GetRelationships = _commonUtilityService.GetRelationship().ToList();
+            ViewBag.GetStates = _commonUtilityService.GetStates()
+                                                        .Select(x => new
+                                                        {
+                                                            x.Value,
+                                                            x.Text
+                                                        }).ToList();
+            ViewBag.GetRelationships = _commonUtilityService
+                                                        .GetRelationship()
+                                                        .Select(x => new
+                                                        {
+                                                            x.Value,
+                                                            x.Text
+                                                        }).ToList();
             return View();
         }
 
@@ -46,7 +57,11 @@ namespace RMS.Controllers
 
         public IActionResult Edit(int? id)
         {
-            ViewBag.GetState = _commonUtilityService.GetStates();
+            ViewBag.GetState = _commonUtilityService.GetStates().Select(x => new
+                                                            {
+                                                                x.Value,
+                                                                x.Text
+                                                            }).ToList();
             TenantInfoModel model = new TenantInfoModel();
             model = _tenantInfoService.GetById(id);
             return View(model);

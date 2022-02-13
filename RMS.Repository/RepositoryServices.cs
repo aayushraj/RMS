@@ -15,7 +15,7 @@ namespace RMS.Repository
     {
         public static void AddRepositoryService(this IServiceCollection ser)
         {
-            ser.AddScoped<IDapperService, DapperService>();
+            ser.AddTransient<IDapperService, DapperService>();
             ser.AddScoped<ICommonUtilityRepository, CommonUtilityRepository>();
             //ser.AddScoped<IPaymentRepository,PaymentRepository>();
             ser.AddScoped<IReportRepository,ReportRepository>();

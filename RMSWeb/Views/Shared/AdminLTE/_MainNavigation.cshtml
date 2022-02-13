@@ -42,12 +42,45 @@
                         </p>
                     </a>
                 <li class="nav-item">
-                    <a asp-controller="Home"  asp-action="Privacy" class="nav-link">
+                    <a asp-controller="Home" asp-action="Privacy" class="nav-link">
                         <i class="nav-icon fas fa-lock"></i>
                         <p>
                             Privacy
                         </p>
                     </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Tenant
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/TenantInfo/Index" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Tenant Information</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/TenantInfo/Create" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create New</p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="/Setup/Index" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Rent FloorWise </p>
+                            </a>
+                        </li>
+
+
+                    </ul>
                 </li>
             </ul>
         </nav>

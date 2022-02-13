@@ -1,11 +1,11 @@
 ﻿@using RMS.Models
 @model TenantInfoModel
-@{ 
+@{
     int i = 1;
 }
 
 
-  
+
 
 <div>
     <h1>Tenant Information</h1>
@@ -44,7 +44,7 @@
         <div class="row form-group">
             <div class="col-md-4">
                 <label>State</label>
-                @Html.DropDownListFor(x => x.State, RMS.Utility.Utilities.GetState(), "Select State", new { @class = "form-control", @id = "stateId" })
+                <select id="stateId" class="form-control" asp-for="State" asp-items="@(new SelectList(@ViewBag.GetStates,"Value","Text"))"></select>
 
             </div>
             <div class="col-md-4">
@@ -76,7 +76,7 @@
             <h1>Family Information</h1>
 
             @*@foreach (var item in Model.FamilyList)*@
-            @for(int j=0;j<Model.FamilyList.Count;j++)
+            @for (int j = 0; j < Model.FamilyList.Count; j++)
             {
                 @Html.HiddenFor(x=>x.FamilyList[j].Id)
                 <fieldset>
@@ -93,7 +93,7 @@
 
                         <div class="col-md-4">
                             <label>Gender</label>
-                           @Html.TextBoxFor(x => x.FamilyList[j].Gender , new {@class="form-control"})
+                            @Html.TextBoxFor(x => x.FamilyList[j].Gender , new {@class="form-control"})
                         </div>
 
                         <div class="col-md-4">
@@ -119,7 +119,7 @@
             <a href="/TenantInfo/Index" class="btn btn-primary">Back</a>
         </div>
     </form>
-    
+
 </div>
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
@@ -152,7 +152,7 @@
             }
         })
     })
-   
+
 </script>
 
 
