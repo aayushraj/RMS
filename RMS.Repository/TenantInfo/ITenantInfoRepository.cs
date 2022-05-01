@@ -13,18 +13,16 @@ using RMS.Models;
 
 namespace RMS.Repository.TenantInfo
 {
-    public interface ITenantInfoRepository:IGenericRepository<TenantInfoModel>
+    public interface ITenantInfoRepository : IGenericRepository<TenantInfoModel>
     {
     }
 
     public class TenantInfoRepository : ITenantInfoRepository
     {
         //private string connString = ConfigurationManager.ConnectionStrings["DBstring"].ToString();
-        private readonly IDbConnection _connection;
         private readonly IDapperService _dapperService;
-        public TenantInfoRepository(IDapperService dapperService, IDbConnection connection)
+        public TenantInfoRepository(IDapperService dapperService)
         {
-            _connection=connection;
             _dapperService = dapperService;
         }
 
@@ -115,7 +113,7 @@ namespace RMS.Repository.TenantInfo
 
             //}
             return true;
-    }
+        }
 
         public List<TenantInfoModel> GetList()
         {
@@ -123,47 +121,45 @@ namespace RMS.Repository.TenantInfo
                             from  RMS_INFO rf 
                             inner join RMS_INFO_STATE as r on r.StateId = rf.StateId
                             inner join RMS_INFO_District as D on D.DistrictId = rf.District  where status = 1";
-            using (var con = _connection)
-            {
-                con.Open();
-                var list = _dapperService.Query<TenantInfoModel>(sql);
-                return list;
-            }
-            #region Using SQLConnection for Reference
-            //SqlConnection con = new SqlConnection(connString);
 
-            //SqlCommand Command = new SqlCommand(sql, con);
-
-            //con.Open();
-
-            //SqlDataReader dataReader = Command.ExecuteReader();
-
-            //List<TenantInfoModel> list = new List<TenantInfoModel>();
-
-            //while (dataReader.Read())
-            //{
-            //    TenantInfoModel model = new TenantInfoModel();
-
-            //    model.Id = Convert.ToInt32(dataReader["id"].ToString());
-            //    model.FirstName = dataReader["Firstname"].ToString();
-            //    model.LastName = dataReader["Lastname"].ToString();
-            //    model.Address = dataReader["Address"].ToString();
-            //    model.Contact = Convert.ToDecimal(dataReader["Contact"].ToString());
-            //    model.StateName = dataReader["StateName"].ToString();
-            //    model.FloorNumber = Convert.ToInt32(dataReader["FloorNumber"].ToString());
-            //    model.City = dataReader["City"].ToString();
-            //    model.WardNo = Convert.ToInt32(dataReader["WardNo"].ToString());
-            //    model.Email = dataReader["Email"].ToString();
-            //    model.DistrictName = dataReader["DistrictName"].ToString();
-
-            //    list.Add(model);
-            //}
-
-            //con.Close();
-
-            //return list; 
-            #endregion
+            var list = _dapperService.Query<TenantInfoModel>(sql);
+            return list;
         }
+        #region Using SQLConnection for Reference
+        //SqlConnection con = new SqlConnection(connString);
+
+        //SqlCommand Command = new SqlCommand(sql, con);
+
+        //con.Open();
+
+        //SqlDataReader dataReader = Command.ExecuteReader();
+
+        //List<TenantInfoModel> list = new List<TenantInfoModel>();
+
+        //while (dataReader.Read())
+        //{
+        //    TenantInfoModel model = new TenantInfoModel();
+
+        //    model.Id = Convert.ToInt32(dataReader["id"].ToString());
+        //    model.FirstName = dataReader["Firstname"].ToString();
+        //    model.LastName = dataReader["Lastname"].ToString();
+        //    model.Address = dataReader["Address"].ToString();
+        //    model.Contact = Convert.ToDecimal(dataReader["Contact"].ToString());
+        //    model.StateName = dataReader["StateName"].ToString();
+        //    model.FloorNumber = Convert.ToInt32(dataReader["FloorNumber"].ToString());
+        //    model.City = dataReader["City"].ToString();
+        //    model.WardNo = Convert.ToInt32(dataReader["WardNo"].ToString());
+        //    model.Email = dataReader["Email"].ToString();
+        //    model.DistrictName = dataReader["DistrictName"].ToString();
+
+        //    list.Add(model);
+        //}
+
+        //con.Close();
+
+        //return list; 
+        #endregion
+
 
         public TenantInfoModel GetById(int? id)
         {
@@ -173,167 +169,185 @@ namespace RMS.Repository.TenantInfo
                             inner join RMS_INFO_District as D on D.DistrictId = rf.District  where id=@Id ";
             string sql1 = @"	select * from FamilyInfo where ParentID = @id";
 
-            SqlConnection con = new SqlConnection(_connection.ConnectionString);
-            SqlCommand cmd = new SqlCommand(getTenantSql, con);
-            cmd.Parameters.AddWithValue("id", id);
+            var tenantParam = _dapperService.AddParam(id);
+            var tenantInfo = _dapperService.Query<TenantInfoModel>(getTenantSql, tenantParam).FirstOrDefault();
 
-            SqlCommand familyCmd = new SqlCommand(sql1, con);
-            familyCmd.Parameters.AddWithValue("id", id);
-
-            con.Open();
-            SqlDataReader dataReader = cmd.ExecuteReader();
+            var famaliParam = _dapperService.AddParam(tenantInfo.Id);
+            var familyinfo = _dapperService.Query<FamilyInfoModel>(sql1, famaliParam);
+            tenantInfo.FamilyList = familyinfo;
             
-            TenantInfoModel model = new TenantInfoModel();
 
-            while (dataReader.Read())
-            {
-                model.Id = Convert.ToInt32(dataReader["id"].ToString());
-                model.FirstName = dataReader["Firstname"].ToString();
-                model.LastName = dataReader["Lastname"].ToString();
-                model.Address = dataReader["Address"].ToString();
-                
-                model.Contact = Convert.ToDecimal(dataReader["contact"].ToString());
-                model.City = dataReader["City"].ToString();
-                model.FloorNumber = Convert.ToInt32(dataReader["FloorNumber"].ToString());
-                model.StateName = dataReader["StateName"].ToString();
-                
-                model.WardNo = Convert.ToInt32(dataReader["WardNo"].ToString());
-                model.Email = dataReader["Email"].ToString();
-                model.DistrictName = dataReader["DistrictName"].ToString();
-                model.MiddleName = dataReader["MiddleName"].ToString();
+            //SqlConnection con = new SqlConnection(_connection.ConnectionString);
+            //SqlCommand cmd = new SqlCommand(getTenantSql, con);
+            //cmd.Parameters.AddWithValue("id", id);
 
-            }
-            con.Close();
+            //SqlCommand familyCmd = new SqlCommand(sql1, con);
+            //familyCmd.Parameters.AddWithValue("id", id);
 
-            
-            con.Open();
-            SqlDataReader dataReader1 = familyCmd.ExecuteReader();
-            List<FamilyInfoModel> list = new List<FamilyInfoModel>();
-            while (dataReader1.Read())
-            {
-                FamilyInfoModel fmodel = new FamilyInfoModel();
-                fmodel.Id = Convert.ToInt32(dataReader1["id"].ToString());
-                fmodel.FirstName = dataReader1["FirstName"].ToString();
-                fmodel.LastName = dataReader1["LastName"].ToString();
-                fmodel.Gender = dataReader1["Gender"].ToString();
-                fmodel.Relationship = dataReader1["Relationship"].ToString();
-                //fmodel.DOB = Convert.ToDateTime(dataReader1["DOB"].ToString());
-                list.Add(fmodel);
+            //con.Open();
+            //SqlDataReader dataReader = cmd.ExecuteReader();
+
+            //TenantInfoModel model = new TenantInfoModel();
+
+            //while (dataReader.Read())
+            //{
+            //    model.Id = Convert.ToInt32(dataReader["id"].ToString());
+            //    model.FirstName = dataReader["Firstname"].ToString();
+            //    model.LastName = dataReader["Lastname"].ToString();
+            //    model.Address = dataReader["Address"].ToString();
+
+            //    model.Contact = Convert.ToDecimal(dataReader["contact"].ToString());
+            //    model.City = dataReader["City"].ToString();
+            //    model.FloorNumber = Convert.ToInt32(dataReader["FloorNumber"].ToString());
+            //    model.StateName = dataReader["StateName"].ToString();
+
+            //    model.WardNo = Convert.ToInt32(dataReader["WardNo"].ToString());
+            //    model.Email = dataReader["Email"].ToString();
+            //    model.DistrictName = dataReader["DistrictName"].ToString();
+            //    model.MiddleName = dataReader["MiddleName"].ToString();
+
+            //}
+            //con.Close();
 
 
-            }
-            model.FamilyList = list;
-            con.Close();
-            return model;
+            //con.Open();
+            //SqlDataReader dataReader1 = familyCmd.ExecuteReader();
+            //List<FamilyInfoModel> list = new List<FamilyInfoModel>();
+            //while (dataReader1.Read())
+            //{
+            //    FamilyInfoModel fmodel = new FamilyInfoModel();
+            //    fmodel.Id = Convert.ToInt32(dataReader1["id"].ToString());
+            //    fmodel.FirstName = dataReader1["FirstName"].ToString();
+            //    fmodel.LastName = dataReader1["LastName"].ToString();
+            //    fmodel.Gender = dataReader1["Gender"].ToString();
+            //    fmodel.Relationship = dataReader1["Relationship"].ToString();
+            //    //fmodel.DOB = Convert.ToDateTime(dataReader1["DOB"].ToString());
+            //    list.Add(fmodel);
+
+
+            //}
+            //model.FamilyList = list;
+            //con.Close();
+            return tenantInfo;
         }
-
-        
 
         public bool Edit(TenantInfoModel model)
         {
-            SqlConnection con = new SqlConnection(_connection.ConnectionString);
-            con.Open();
-
-            SqlTransaction transaction = con.BeginTransaction();
-            try
-            {
-                string sql = @"update RMS_Info set FirstName=@FirstName,LastName=@LastName,Address=@Address,Contact=@Contact,FloorNumber=@FloorNumber,City=@City,WardNo=@WardNo,Email=@Email,District=@District,MiddleName=@MiddleName where id=@id";
-
-                SqlCommand cmd = new SqlCommand(sql, con,transaction);
-
-                cmd.Parameters.AddWithValue("id", model.Id);
-                cmd.Parameters.AddWithValue("FirstName", model.FirstName);
-                cmd.Parameters.AddWithValue("LastName", model.LastName);
-                cmd.Parameters.AddWithValue("Address", model.Address);
-                cmd.Parameters.AddWithValue("Contact", model.Contact);
-                cmd.Parameters.AddWithValue("FloorNumber", model.FloorNumber);
-                cmd.Parameters.AddWithValue("City", model.City);
-                cmd.Parameters.AddWithValue("WardNo", model.WardNo);
-                cmd.Parameters.AddWithValue("Email", model.Email);
-                cmd.Parameters.AddWithValue("District", model.District);
-                cmd.Parameters.AddWithValue("MiddleName", model.MiddleName);
-
-
-
-                foreach (var item in model.FamilyList)
-                {
-                    string sql1 = @"update Familyinfo set FirstName=@FirstName,LastName=@LastName,Address=@Address,Contact=@Contact,Floorid=@Floorid,Gender=@Gender,Relationship=@Relationship,DOB=@DOB where id=@id";
-
-                    SqlCommand familycmd = new SqlCommand(sql1, con,transaction);
-
-                    familycmd.Parameters.AddWithValue("id", item.Id);
-                    familycmd.Parameters.AddWithValue("FirstName", item.FirstName);
-                    familycmd.Parameters.AddWithValue("LastName", item.LastName);
-                    familycmd.Parameters.AddWithValue("Address", model.Address);
-                    familycmd.Parameters.AddWithValue("Contact", model.Contact);
-                    familycmd.Parameters.AddWithValue("Floorid", model.FloorNumber);
-                    familycmd.Parameters.AddWithValue("Gender", item.Gender);
-                    familycmd.Parameters.AddWithValue("Relationship", item.Relationship);
-                    familycmd.Parameters.AddWithValue("DOB", item.DOB);
-
-                    familycmd.ExecuteNonQuery();
-                }
-
-
-
-
-                 cmd.ExecuteNonQuery();
-
-                transaction.Commit();
-                con.Close();
-                return true;
-
-            }
-
-            catch(Exception ex)
-            {
-                transaction.Rollback();
-                return false;
-            }
-         
+            throw new NotImplementedException();
         }
 
         public bool Delete(TenantInfoModel model)
         {
-            SqlConnection con = new SqlConnection(_connection.ConnectionString);
-            con.Open();
-            SqlTransaction transaction = con.BeginTransaction();
-            try
-            {
-                string sql = @"update RMS_info set status=0 where id=@id";
-
-                SqlCommand cmd = new SqlCommand(sql, con,transaction);
-
-
-                cmd.Parameters.AddWithValue("id", model.Id);
-
-                foreach (var item in model.FamilyList)
-                {
-                    string sql1 = @"update FamilyInfo set status=0 where id=@id";
-
-                    SqlCommand familycmd = new SqlCommand(sql1, con,transaction);
-
-                    familycmd.Parameters.AddWithValue("id", item.Id);
-
-                    familycmd.ExecuteNonQuery();
-                }
-
-
-
-                 cmd.ExecuteNonQuery();
-                transaction.Commit();
-
-                con.Close();
-                return true;
-            }
-            
-
-            catch(Exception ex)
-            {
-                transaction.Rollback();
-                return false;
-            }
+            throw new NotImplementedException();
         }
+
+
+
+        //public bool Edit(TenantInfoModel model)
+        //{
+        //    SqlConnection con = new SqlConnection(_connection.ConnectionString);
+        //    con.Open();
+
+        //    SqlTransaction transaction = con.BeginTransaction();
+        //    try
+        //    {
+        //        string sql = @"update RMS_Info set FirstName=@FirstName,LastName=@LastName,Address=@Address,Contact=@Contact,FloorNumber=@FloorNumber,City=@City,WardNo=@WardNo,Email=@Email,District=@District,MiddleName=@MiddleName where id=@id";
+
+        //        SqlCommand cmd = new SqlCommand(sql, con, transaction);
+
+        //        cmd.Parameters.AddWithValue("id", model.Id);
+        //        cmd.Parameters.AddWithValue("FirstName", model.FirstName);
+        //        cmd.Parameters.AddWithValue("LastName", model.LastName);
+        //        cmd.Parameters.AddWithValue("Address", model.Address);
+        //        cmd.Parameters.AddWithValue("Contact", model.Contact);
+        //        cmd.Parameters.AddWithValue("FloorNumber", model.FloorNumber);
+        //        cmd.Parameters.AddWithValue("City", model.City);
+        //        cmd.Parameters.AddWithValue("WardNo", model.WardNo);
+        //        cmd.Parameters.AddWithValue("Email", model.Email);
+        //        cmd.Parameters.AddWithValue("District", model.District);
+        //        cmd.Parameters.AddWithValue("MiddleName", model.MiddleName);
+
+
+
+        //        foreach (var item in model.FamilyList)
+        //        {
+        //            string sql1 = @"update Familyinfo set FirstName=@FirstName,LastName=@LastName,Address=@Address,Contact=@Contact,Floorid=@Floorid,Gender=@Gender,Relationship=@Relationship,DOB=@DOB where id=@id";
+
+        //            SqlCommand familycmd = new SqlCommand(sql1, con, transaction);
+
+        //            familycmd.Parameters.AddWithValue("id", item.Id);
+        //            familycmd.Parameters.AddWithValue("FirstName", item.FirstName);
+        //            familycmd.Parameters.AddWithValue("LastName", item.LastName);
+        //            familycmd.Parameters.AddWithValue("Address", model.Address);
+        //            familycmd.Parameters.AddWithValue("Contact", model.Contact);
+        //            familycmd.Parameters.AddWithValue("Floorid", model.FloorNumber);
+        //            familycmd.Parameters.AddWithValue("Gender", item.Gender);
+        //            familycmd.Parameters.AddWithValue("Relationship", item.Relationship);
+        //            familycmd.Parameters.AddWithValue("DOB", item.DOB);
+
+        //            familycmd.ExecuteNonQuery();
+        //        }
+
+
+
+
+        //        cmd.ExecuteNonQuery();
+
+        //        transaction.Commit();
+        //        con.Close();
+        //        return true;
+
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        transaction.Rollback();
+        //        return false;
+        //    }
+
+        //}
+
+        //public bool Delete(TenantInfoModel model)
+        //{
+        //    SqlConnection con = new SqlConnection(_connection.ConnectionString);
+        //    con.Open();
+        //    SqlTransaction transaction = con.BeginTransaction();
+        //    try
+        //    {
+        //        string sql = @"update RMS_info set status=0 where id=@id";
+
+        //        SqlCommand cmd = new SqlCommand(sql, con, transaction);
+
+
+        //        cmd.Parameters.AddWithValue("id", model.Id);
+
+        //        foreach (var item in model.FamilyList)
+        //        {
+        //            string sql1 = @"update FamilyInfo set status=0 where id=@id";
+
+        //            SqlCommand familycmd = new SqlCommand(sql1, con, transaction);
+
+        //            familycmd.Parameters.AddWithValue("id", item.Id);
+
+        //            familycmd.ExecuteNonQuery();
+        //        }
+
+
+
+        //        cmd.ExecuteNonQuery();
+        //        transaction.Commit();
+
+        //        con.Close();
+        //        return true;
+        //    }
+
+
+        //    catch (Exception ex)
+        //    {
+        //        transaction.Rollback();
+        //        return false;
+        //    }
+        //}
 
         //private SqlCommand GetParam(object model,SqlConnection con,string sql)
         //{
@@ -342,7 +356,7 @@ namespace RMS.Repository.TenantInfo
         //    {
         //        cmd.Parameters.AddWithValue(model.GetType().Name,model.GetType().)
         //    }
-            
+
         //}
 
         //private int ExecuteNonQuery(SqlCommand cmd)
@@ -353,7 +367,7 @@ namespace RMS.Repository.TenantInfo
 
     }
 
-     
+
 }
 
 

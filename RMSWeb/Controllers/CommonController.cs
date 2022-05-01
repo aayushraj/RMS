@@ -16,13 +16,8 @@ namespace RMS.Controllers
         public IActionResult GetDistrict(int stateId)
         {
             var districtList = _commonUtilityService.GetDistricts(stateId);
-            ViewData["GetDistricts"] = districtList.Select(x => new
-            {
-                x.Value,
-                x.Text
-            }).ToList();
-            return Json(new SelectList(districtList, "Value", "Text"));
-
+            districtList.Add(new DDLModel { Text = "Select District", Value = "" });
+            return Json(new SelectList(districtList.OrderBy(x=>x.Value), "Value", "Text"));
         }
 
         //public IActionResult GetFloor(int Id)

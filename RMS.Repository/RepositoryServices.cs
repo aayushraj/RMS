@@ -6,6 +6,7 @@ using RMS.Repository.TenantInfo;
 using RMS.Repository.Payment;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace RMS.Repository
     {
         public static void AddRepositoryService(this IServiceCollection ser)
         {
-            ser.AddTransient<IDapperService, DapperService>();
+            ser.AddScoped<IDapperService, DapperService>();
             ser.AddScoped<ICommonUtilityRepository, CommonUtilityRepository>();
             ser.AddScoped<IPaymentRepository,PaymentRepository>();
             ser.AddScoped<IReportRepository,ReportRepository>();

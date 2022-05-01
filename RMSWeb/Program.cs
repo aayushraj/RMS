@@ -8,15 +8,16 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("RMSWebContextConnection");
-builder.Services.AddDbContext<RMSWebContext>(options =>
-    options.UseSqlServer(connectionString));builder.Services.AddDefaultIdentity<RMSWebUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<RMSWebContext>();
-builder.Services.AddTransient<IDbConnection>(db => new SqlConnection(builder.Configuration.GetConnectionString("DBstring")));
+//var connectionString = builder.Configuration.GetConnectionString("RMSWebContextConnection");
+//builder.Services.AddDbContext<RMSWebContext>(options =>
+//    options.UseSqlServer(connectionString));builder.Services.AddDefaultIdentity<RMSWebUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<RMSWebContext>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRepositoryService();
 builder.Services.AddService();
+
+
 var app = builder.Build();
 
 
@@ -37,6 +38,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=TenantInfo}/{action=Index}/{id?}");
 
 app.Run();

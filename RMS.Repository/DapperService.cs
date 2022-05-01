@@ -17,15 +17,15 @@ namespace RMS.Repository
     }
     public class DapperService : IDapperService
     {
-        private readonly IDbConnection _connection;
-        public DapperService(IDbConnection connection)
+        private readonly string _connection;
+        public DapperService(IConfiguration configuration)
         {
-            _connection = connection;
+            _connection = configuration.GetConnectionString("DBString");
         }
 
         public List<T> Query<T>(string sql)
         {
-            using (var con = _connection)
+            using (var con = new SqlConnection(_connection))
             {
                 con.Open();
                 return con.Query<T>(sql).ToList();
@@ -34,7 +34,7 @@ namespace RMS.Repository
 
         public List<T> Query<T>(string sql, DynamicParameters param)
         {
-            using (var con = _connection)
+            using (var con = new SqlConnection(_connection))
             {
                 con.Open();
                 return con.Query<T>(sql, param).ToList();
@@ -42,7 +42,7 @@ namespace RMS.Repository
         }
         public async Task<List<T>> QueryAsync<T>(string sql, DynamicParameters param)
         {
-            using (var con = _connection)
+            using (var con = new SqlConnection(_connection))
             {
                 con.Open();
                 return (List<T>)await con.QueryAsync<T>(sql, param);
@@ -51,7 +51,7 @@ namespace RMS.Repository
 
         public int Execute(string sql, DynamicParameters param)
         {
-            using (var con = _connection)
+            using (var con = new SqlConnection(_connection))
             {
                 con.Open();
                 return con.Execute(sql, param);
