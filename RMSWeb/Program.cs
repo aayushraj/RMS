@@ -2,8 +2,8 @@ using RMS.Repository;
 using RMS.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using RMSWeb.Data;
-using RMSWeb.Areas.Identity.Data;
+//using RMSWeb.Data;
+//using RMSWeb.Areas.Identity.Data;
 using System.Data;
 using Microsoft.Data.SqlClient;
 

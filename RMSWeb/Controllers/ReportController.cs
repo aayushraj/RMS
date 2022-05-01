@@ -24,8 +24,8 @@ namespace RMS.Controllers
 
         public IActionResult GetMonthlyReport(ReportModel model)
         {
-            var list =  _reportService.Getlist(model);
-            return View(list);
+            model.list =  _reportService.Getlist(model);
+            return View(model);
         }
 
         public IActionResult GetDailyReportDate()

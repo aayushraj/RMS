@@ -16,7 +16,7 @@
 //        {
 //            return View();
 //        }
-        
+
 //        public IActionResult Create()
 //        {
 //            return View();
@@ -27,7 +27,7 @@
 //        {
 //            PaymentModel model1 = new PaymentModel();
 //            model1 = ser.Create(model);
-            
+
 //            return RedirectToAction("Index", "TenantInfo");
 //        }
 //    }
