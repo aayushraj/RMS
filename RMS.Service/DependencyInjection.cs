@@ -2,7 +2,7 @@
 using RMS.Service.Helpers;
 using RMS.Service.Report;
 using RMS.Service.TenantInfo;
-using RMS.Service.Payment;
+//using RMS.Service.Payment;
 using RMS.Service.SetUp;
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace RMS.Service
         {
             ser.AddScoped<IReportService, ReportService>();
             ser.AddScoped<ICommonUtilityService, CommonUtilityService>();
-            ser.AddScoped<IPaymentServices, PaymentServices>();
+           // ser.AddScoped<IPaymentServices, PaymentServices>();
             ser.AddScoped<ITenantInfoService, TenantInfoService>();
             ser.AddScoped<IFamilyInfoService, FamilyInfoService>();
             ser.AddScoped<IRentSetupService, RentSetupService>();

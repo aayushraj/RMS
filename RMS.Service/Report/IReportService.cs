@@ -38,7 +38,7 @@ namespace RMS.Service.Report
 
         public ReportModel MonthlySummary(ReportModel model)
         {
-            var Month = 0;
+            var Month = 0;  // show data till current month only
             List<ReportModel> list = new List<ReportModel>();
             while (Month < 13)
             {
