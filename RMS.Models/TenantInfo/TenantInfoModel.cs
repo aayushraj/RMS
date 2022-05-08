@@ -1,4 +1,5 @@
 ﻿using RMS.Models.Common;
+using System.ComponentModel;
 
 namespace RMS.Models
 {
@@ -18,12 +19,13 @@ namespace RMS.Models
         public int WardNo { get; set; }
         public string StateName { get; set; }
         public string DistrictName { get; set; }
-        
+        public DateTime PaymentDate { get; set; }
         public List<TenantInfoModel> List { get; set; }
         public string[] Name { get; set; }
-
         public string dummy = "null";
-
+        public decimal? DueAmount { get; set; }
+        public decimal? PaidAmount { get; set; }
+        public decimal? Advance { get; set; }
         public FamilyInfoModel familyinfo { get; set; }
         public IList<FamilyInfoModel> FamilyList{ get; set; }
 
