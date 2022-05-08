@@ -10,6 +10,7 @@ namespace RMS.Repository
     public interface IDapperService
     {
         List<T> Query<T>(string sql);
+        List<T> SPQuery<T>(string sql,DynamicParameters param);
         List<T> Query<T>(string sql, DynamicParameters param);
         Task<List<T>> QueryAsync<T>(string sql, DynamicParameters param);
         int Execute(string sql, DynamicParameters param);
@@ -29,6 +30,14 @@ namespace RMS.Repository
             {
                 con.Open();
                 return con.Query<T>(sql).ToList();
+            }
+        }
+        public List<T> SPQuery<T>(string sp,DynamicParameters param)
+        {
+            using (var con = new SqlConnection(_connection))
+            {
+                con.Open();
+                return con.Query<T>(sp,param,commandType:CommandType.StoredProcedure).ToList();
             }
         }
 
@@ -60,13 +69,22 @@ namespace RMS.Repository
 
         public DynamicParameters AddParam(object obj)
         {
+            Type objType = obj.GetType();
             DynamicParameters param = new();
+
+            if (objType.Name.Equals(typeof(string).Name))
+            {
+                param.Add("@Flag", obj);
+
+                return param;
+            }
             if (obj.GetType().IsValueType)
             {
                 param.Add("id", obj);
 
                 return param;
             }
+            
 
             foreach (var item in obj.GetType().GetProperties())
             {
