@@ -117,12 +117,9 @@ namespace RMS.Repository.TenantInfo
 
         public List<TenantInfoModel> GetList()
         {
-            string sql = @"select rf.id,rf.FirstName,rf.LastName,rf.Address,rf.Contact,rf.City,rf.WardNo,rf.FloorNumber,rf.Email,D.DistrictName,r.StateName   
-                            from  RMS_INFO rf 
-                            inner join RMS_INFO_STATE as r on r.StateId = rf.StateId
-                            inner join RMS_INFO_District as D on D.DistrictId = rf.District  where status = 1";
-
-            var list = _dapperService.Query<TenantInfoModel>(sql);
+            string sql = @"SP_GETTENANT_INFO";
+            var parameter = _dapperService.AddParam("GetList");
+            var list = _dapperService.SPQuery<TenantInfoModel>(sql,parameter);
             return list;
         }
         #region Using SQLConnection for Reference
