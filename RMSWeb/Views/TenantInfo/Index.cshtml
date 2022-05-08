@@ -1,9 +1,38 @@
 ﻿@using RMS.Models
+
 @model TenantInfoModel
+<style>
+    .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  font-size:smaller;
+}
+</style>
+
+
+@{
+    string rowBegin = @"<div class = ""row"">";
+    string cardbody = @"<div class=""col-md-4"">
+<div class =""card"">
+<div class = ""card-header""></div>
+<div class = ""card-body"">
+ test
+</div>
+</div>
+<div>";
+
+    var loopcounter = 0;
+    string rowEnd = "</div>";
+    var count = 0;
+    var j=0;
+    int? familyListCount = 0;
+}
 
 @{
     string FullName = "";
-
+    var listCount = @Model.List.Count;
 }
 
 @if (Model.IsSuccess)
@@ -30,53 +59,67 @@
         <b>Tenant Information</b>
          <a class="btn btn-primary btn-sm" title="Edit Tenant" asp-controller="TenantInfo" asp-action="Create" style="float:right"><i class="fa fa-plus">&nbsp;</i>Add Tenant</a>
     </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover tab-content table-sm" id="myTable">
-                <thead>
-                    <tr class="danger">
-                        <th>Name</th>
-                        <th>Address</th>
-                        <th>Contact</th>
-                        <th>State</th>
-                        <th>City</th>
-                        <th>WardNo</th>
-                        <th>Email</th>
-                        <th>District</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+    <div class="card-body"> 
+       @while(loopcounter<listCount)
+       {
+        <div class="row">
+            @for(int i=loopcounter;i<listCount ;i++)
+            {
+                    FullName = $"{@Model.List[i].FirstName} {@Model.List[i].LastName}";
+                    <div class="col-md-4">
+                    <div class="card">
+                      <div class="card-header">
+                          <center><b> @FullName</b></center>
+                      </div>
+                      <div class="card-body">
+                          <div>
+                          <img src = "~/img/avatar5.png" class="center rounded-circle"> 
+                          </div>
+                          <br>
+                          <div>
+                              <center>
+                                  <i class="fas fa-map-marker-alt fa-fw"></i>@Model.List[i].Address
+                                  <br>
+                                  <b><i class="fa fa-address-book fa-fw"></i>@Model.List[i].Contact</b> 
+                                  <br>
+                                        @{
+                                            string test = Model.List[i].FamilyList.Count.ToString();
+                                            if(string.IsNullOrEmpty(test))
+                                            {
+                                                <b><i class="fas fa-users fa-fw"></i>0</b>
+                                            }
 
-                <tbody>
-                    @foreach (var item in Model.List)
-                    {
-                        FullName = $" {item.FirstName} {item.LastName}";
-                        //FullName = item.FirstName + " " + item.LastName;
-                        //FullName = string.Concat(item.FirstName,item.LastName);
+                                            else
+                                            {
+                                              <b><i class="fas fa-users fa-fw"></i>Count</b>  
+                                            }
 
-                        <tr class="info">
-                            <td>@FullName</td>
-                            <td>@item.Address</td>
-                            <td>@item.Contact</td>
-                            <td>@item.StateName</td>
-                            <td>@item.City</td>
-                            <td>@item.WardNo</td>
-                            <td>@item.Email</td>
-                            <td>@item.DistrictName</td>
+                                            
+                                  }
+                                  
+                                  <br>
+                                  <a href ="/TenantInfo/GetTenantDetails/@Model.List[i].Id" target="_blank" title="View details"><i class="far fas-info-circle fa-fw"></i></a>
+                              </center>
+                          </div>
+                      </div>
+                  </div>
 
-                            <td>
-                                <a href="/TenantInfo/Edit/@item.Id" class="btn btn-xs btn-success" title="Edit Tenant"><i class="far fa-edit"></i></a>
-                                <a href="/Tenantinfo/Delete/@item.Id" class="btn btn-xs btn-danger" title="Delete Tenant"><i class="fa fa-trash"></i></a>
-                                <a href="/Familyinfo/Index/@item.Id" class="btn btn-xs btn-info" title="View Family"><i class="far fa-eye"></i></a>
-                                <a href="/Familyinfo/Create/@item.Id" class="btn btn-xs btn-primary" title="Add Family"><i class="fa fa-plus"></i></a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                </div>
+                loopcounter++;
+                count++;
+                if(count==3)
+                {
+                    count = 0;
+                    break;
+                }
+            }
+            </div>
+         }  
+        
+       
     </div>
-</div>
+  </div>
+
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 

@@ -52,6 +52,7 @@ namespace RMS.Controllers
             return View();
         }
 
+        
         public IActionResult GetLastPaid(ReportModel model)
         {
             var lastPayment = _reportService.LastPaid(model.TenantId);

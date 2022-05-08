@@ -1,0 +1,211 @@
+﻿@using RMS.Models
+@model TenantInfoModel
+<script src="~/js/custom.js"></script>
+
+<style>
+    .font{
+        font-size:large ;
+        padding:2.25 rem
+    }  
+</style>
+@{
+    string Fullname = $"{@Model.FirstName} {@Model.LastName}";
+    var i = 1;
+    string FamilyFullName;
+}
+
+<div class="card">
+    <div class="card-header">
+        Tenant Details
+        @*<button type ="button" data-toggle="modal" data-target="#modal-lg" onclick=GetLastPayment(@Model.Id) class="btn btn-sm btn-success" style="float:right" title="Last paid">see last payment</button>*@
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <img src ="~/img/avatar5.png" width="200px" height="200px" />
+            </div>
+            <div class="col-md-8">                 
+                <div class="card font" >
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b> Name :</b> @Fullname                                
+                            </div>
+                             <div class="col-md-6">
+                                <b>Address : </b> @Model.Address
+                             </div>              
+                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b>Contact :</b>@Model.Contact
+                            </div>
+                            <div class="col-md-6">
+                                <b>City :</b>@Model.City
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b>State :</b>@Model.StateName
+                            </div>
+                            <div class="col-md-6">
+                                <b>District</b> @Model.DistrictName
+                            </div>
+                        </div>
+                        <div class="row">                            
+                            <div class="col-md-6">
+                                <b>Email Id :</b>@Model.Email
+                            </div>
+                            <div class="col-md-6">
+                                <b>DOB :</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-md-6">
+                                <b>Ward No :</b>@Model.WardNo
+                            </div>
+                            <div class="col-md-6">
+                                <b>Municipality :</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-md-6">
+                                <b>GrandFathers Name:</b>
+                            </div>
+                            <div class="col-md-6">
+                                <b>Fathers Name:</b>
+                            </div>
+                        </div>
+                         <div class="row">
+                             <div class="col-md-6">
+                                <b>Citizenship no:</b>
+                            </div> 
+                             <div class="col-md-6">
+                                <b>Gender</b>
+                            </div> 
+                        </div>
+                        <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                        <p>Payment Details</p>
+                        <div class="row" >
+                             <div class="col-md-6">
+                                <b>Last Paid Amount:</b>@Model.PaidAmount
+                            </div>
+                            <div class="col-md-6">
+                                <b>Payment Date:</b>@Model.PaymentDate
+                            </div>
+                        </div>
+                         <div class="row">
+                             <div class="col-md-6">
+                                <b>Due:</b>@Model.DueAmount
+                            </div>
+                            <div class="col-md-6">
+                                <b>Advance:</b>@Model.Advance
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>       
+    </div>  
+</div>
+    @{
+          if(Model.FamilyList.Count == 0)
+             {
+                <b><center>No Family members</center></b>
+            }
+            else
+            {
+                @foreach(var item in Model.FamilyList)
+                 {
+                        FamilyFullName = $"{@item.FirstName} {@item.LastName}";
+        
+                        <div class="card">
+                            <div class="card-header">
+                                <b>Relation : @item.Relationship</b>
+                             </div>
+                             <div class="card-body">
+                                 <div class="row">
+                                     <div class="col-md-3">
+                                          <img src ="~/img/avatar4.png" width="200px" height="200px">
+                                     </div>
+                                     <div class="col-md-3">
+                                         <div class="card font">
+                                             <div class="card-body">
+                                                 <div class="row">
+                                                     <div class="col-md-6">
+                                                            <b> Name :</b> @FamilyFullName                               
+                                                        </div>
+                                                         <div class="col-md-6">
+                                                                <b>Contact :</b> @item.Contact
+                                                         </div>
+                                                     </div>
+                                                     <div class="row">
+                                                         <div class="col-md-6">
+                                                                <b> Relationshhip :</b> @item.Relationship                              
+                                                            </div>
+                                                         <div class="col-md-6">
+                                                                <b>Address :</b> @item.Address
+                                                         </div>
+                                                   </div>
+                                                   <div class="row">
+                                                         <div class="col-md-6">
+                                                                <b> DOB : :</b> @item.DOB                              
+                                                            </div>                                         
+                                                   </div>                           
+                                            </div>
+                                    </div>
+
+                             </div>
+                        </div>
+                       @i = @i +1
+                    </div>
+                </div>
+               }
+        
+            }
+}
+  
+    
+
+
+ <div class="modal fade" id="modal-lg">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content MyCSS">
+            <div class="modal-header" id="">
+                <p id="fontcolor">Payment Details of @*@RMS.Utility.Utilities.GetTenantNameOnly(Model.TenantId)*@ </p>
+                <button type="button" class="close Closebutton" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="PaymentDetails" style="display:none">
+
+                </div>
+                @*<div class="modal-footer left">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>*@
+            </div>
+        </div>
+    </div>
+
+</div>
+
+ <script>
+
+     var GetLastPayment = function(Id){
+         var id = Id;
+         $('#PaymentDetails').hide();
+        $('#Modal-primary').hide();
+         $.ajax({
+             url:"/Report/GetLastPaid?TenantId=" + Id,
+             method:"post",
+
+             success: function(data){
+                 //console.log("success");
+                 //console.log(data.message);
+                  $('#PaymentDetails').show();
+                $('#Modal-primary').show();
+                $('#PaymentDetails').html(data);
+             }
+         })
+     }
+ </script>

@@ -25,4 +25,8 @@
     <Folder Include="photo\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\img\Spinner-1s-200px.gif" />
+  </ItemGroup>
+
 </Project>

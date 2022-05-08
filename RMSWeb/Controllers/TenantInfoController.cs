@@ -2,6 +2,7 @@
 using RMS.Models;
 using RMS.Service.Helpers;
 using RMS.Service.TenantInfo;
+using RMS.Service.Report;
 //using RMS.Utility;
 namespace RMS.Controllers
 {
@@ -9,11 +10,13 @@ namespace RMS.Controllers
     {
         private readonly ITenantInfoService _tenantInfoService;
         private readonly ICommonUtilityService _commonUtilityService;
+        private readonly IReportService _reportService;
 
-        public TenantInfoController(ITenantInfoService tenantInfoService, ICommonUtilityService commonUtilityService)
+        public TenantInfoController(ITenantInfoService tenantInfoService, ICommonUtilityService commonUtilityService, IReportService reportService)
         {
             _tenantInfoService = tenantInfoService;
             _commonUtilityService = commonUtilityService;
+            _reportService = reportService;
         }
         public IActionResult Index()
         {
@@ -39,8 +42,29 @@ namespace RMS.Controllers
                                                         }).ToList();
             return View();
         }
-
-        public IActionResult GetById(int id)
+        public IActionResult GetTenantDetails(int id)
+        {
+            var model = _tenantInfoService.GetById(id);
+            var reportModel = _reportService.LastPaid(id);
+            try
+            {
+                model.DueAmount = reportModel.DueAmount;
+                model.PaymentDate = reportModel.PaymentDate;
+                model.Advance = reportModel.Advance;
+                model.PaidAmount = reportModel.PaidAmount;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                model.DueAmount = 0;
+                model.PaymentDate = DateTime.Now;
+                model.Advance = 0;
+                model.PaidAmount = 0;
+                return View(model);
+            }
+            
+        }
+        public IActionResult GetById(int id) 
         {
             var model = _tenantInfoService.GetById(id);
             return Json(model.FloorNumber);
