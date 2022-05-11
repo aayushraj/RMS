@@ -44,12 +44,12 @@
         <div class="row form-group">
             <div class="col-md-4">
                 <label>State</label>
-                <select id="stateId" class="form-control" asp-for="State" asp-items="@(new SelectList(@ViewBag.GetStates,"Value","Text"))"></select>
+                @*<select id="stateId" class="form-control" asp-for="State" asp-items="@(new SelectList(@ViewBag.GetStates,"Value","Text"))"></select>*@
 
             </div>
             <div class="col-md-4">
                 <label>District</label>
-                @Html.DropDownListFor(x => x.District, new SelectList(string.Empty), "Select District", new { @class = "form-control", @id = "districtId" })
+                @*@Html.DropDownListFor(x => x.District, new SelectList(string.Empty), "Select District", new { @class = "form-control", @id = "districtId" })*@
             </div>
             <div class="col-md-4">
                 <label>FloorNumber</label>

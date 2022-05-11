@@ -22,7 +22,9 @@ namespace RMS.Controllers
         {
             TenantInfoModel model = new TenantInfoModel();
             model.List = _tenantInfoService.GetList();
+            //var check = model.List.Select(x => x.FirstName).Contains("Nitish");
             return View(model);
+            //return Ok(model.List);
         }
 
         public IActionResult Create()

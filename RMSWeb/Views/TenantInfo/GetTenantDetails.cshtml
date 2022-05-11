@@ -10,8 +10,10 @@
 </style>
 @{
     string Fullname = $"{@Model.FirstName} {@Model.LastName}";
-    var i = 1;
     string FamilyFullName;
+    var loopCounter=0;
+    var iterationCount = 0;
+    var j = 0;
 }
 
 <div class="card">
@@ -22,7 +24,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-3">
-                <img src ="~/img/avatar5.png" width="200px" height="200px" />
+                <img src ="~/img/avatar5.png" width="200px" height="200px" class="img-thumbnail" data-toggle="modal" data-target="#modal-lg" onclick='ShowImage("/img/avatar5.png")'/>
             </div>
             <div class="col-md-8">                 
                 <div class="card font" >
@@ -84,7 +86,7 @@
                             </div> 
                         </div>
                         <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-                        <p>Payment Details</p>
+                        <p>Payment Summary</p>
                         <div class="row" >
                              <div class="col-md-6">
                                 <b>Last Paid Amount:</b>@Model.PaidAmount
@@ -105,84 +107,83 @@
                 </div>
             </div>
         </div>       
-    </div>  
-</div>
-    @{
+
+        @{
           if(Model.FamilyList.Count == 0)
              {
                 <b><center>No Family members</center></b>
             }
             else
             {
-                @foreach(var item in Model.FamilyList)
-                 {
-                        FamilyFullName = $"{@item.FirstName} {@item.LastName}";
-        
-                        <div class="card">
-                            <div class="card-header">
-                                <b>Relation : @item.Relationship</b>
-                             </div>
-                             <div class="card-body">
-                                 <div class="row">
-                                     <div class="col-md-3">
-                                          <img src ="~/img/avatar4.png" width="200px" height="200px">
+                while(loopCounter < Model.FamilyList.Count)
+                {
+                    <div class="row">
+                        @for(int i=j; i<Model.FamilyList.Count ;i++)
+                         {
+                                FamilyFullName = $"{Model.FamilyList[i].FirstName} {Model.FamilyList[i].LastName}";
+                                 <div class="col-md-6">
+                                      <div class="card font">
+                                        <div class="card-header">
+                                            <b>Relation : @Model.FamilyList[i].Relationship</b>
+                                         </div>
+                                         <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                       <img src ="~/img/avatar4.png" width="170px" height="170px" class="img-thumbnail">
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                       <div class="row">
+                                                               <b>Name :</b>@FamilyFullName
+                                                       </div>
+                                                       <div class="row">
+                                                        <b>Contact :</b> @Model.FamilyList[i].Contact
+                                                       </div>
+                                                       <div class="row">
+                                                        <b>Gender :</b> @Model.FamilyList[i].Gender
+                                                       </div>
+                                                       <div class="row">
+                                                        <b>DOb :</b> @Model.FamilyList[i].DOB
+                                                       </div>
+                                                       <div class="row">
+                                                        <b>Occupation :</b>
+                                                       </div>
+                                                       <div class="row">
+                                                        <b>Institute Name :</b> 
+                                                       </div>
+                                                    </div>
+                                                </div>
+                                         </div>
                                      </div>
-                                     <div class="col-md-3">
-                                         <div class="card font">
-                                             <div class="card-body">
-                                                 <div class="row">
-                                                     <div class="col-md-6">
-                                                            <b> Name :</b> @FamilyFullName                               
-                                                        </div>
-                                                         <div class="col-md-6">
-                                                                <b>Contact :</b> @item.Contact
-                                                         </div>
-                                                     </div>
-                                                     <div class="row">
-                                                         <div class="col-md-6">
-                                                                <b> Relationshhip :</b> @item.Relationship                              
-                                                            </div>
-                                                         <div class="col-md-6">
-                                                                <b>Address :</b> @item.Address
-                                                         </div>
-                                                   </div>
-                                                   <div class="row">
-                                                         <div class="col-md-6">
-                                                                <b> DOB : :</b> @item.DOB                              
-                                                            </div>                                         
-                                                   </div>                           
-                                            </div>
-                                    </div>
-
-                             </div>
-                        </div>
-                       @i = @i +1
-                    </div>
-                </div>
-               }
-        
+                            </div>
+                            loopCounter++;
+                            iterationCount++;
+                            if(iterationCount == 2)
+                            {
+                                iterationCount =0;
+                                break;
+                            }
+                        }
+                      </div>   
+                  }                      
             }
-}
-  
+        }
+     </div>  
+</div> 
     
 
 
  <div class="modal fade" id="modal-lg">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content MyCSS">
+        
             <div class="modal-header" id="">
-                <p id="fontcolor">Payment Details of @*@RMS.Utility.Utilities.GetTenantNameOnly(Model.TenantId)*@ </p>
+                <p id="fontcolor">@*@RMS.Utility.Utilities.GetTenantNameOnly(Model.TenantId)*@ </p>
                 <button type="button" class="close Closebutton" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div id="PaymentDetails" style="display:none">
-
-                </div>
-                @*<div class="modal-footer left">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                </div>*@
+                
+                <img id="Img01" width="400px" height="400px" class="modal-content">
             </div>
         </div>
     </div>
@@ -190,22 +191,11 @@
 </div>
 
  <script>
-
-     var GetLastPayment = function(Id){
-         var id = Id;
-         $('#PaymentDetails').hide();
-        $('#Modal-primary').hide();
-         $.ajax({
-             url:"/Report/GetLastPaid?TenantId=" + Id,
-             method:"post",
-
-             success: function(data){
-                 //console.log("success");
-                 //console.log(data.message);
-                  $('#PaymentDetails').show();
-                $('#Modal-primary').show();
-                $('#PaymentDetails').html(data);
-             }
-         })
+     var modal = document.getElementById("modal-lg");
+     var modalImg = document.getElementById("Img01");
+      function ShowImage(src){
+         modal.style.display = "block";
+         //$('#img').append('<img id="Img01" width="400px" height="400px" class="modal-content" src="/img/avatar5.png">')
+        modalImg.src = src;
      }
  </script>
