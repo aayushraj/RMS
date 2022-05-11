@@ -4,6 +4,7 @@ using RMS.Repository.FamilyInfo;
 using RMS.Repository.Report;
 using RMS.Repository.TenantInfo;
 using RMS.Repository.Payment;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,6 +26,7 @@ namespace RMS.Repository
             //ser.AddScoped<ISetupRepository, SetupRepository>();
             ser.AddScoped<IFamilyInfoRepository, FamilyInfoRepository>();
             ser.AddScoped<ITenantInfoRepository, TenantInfoRepository>();
+            
         }
     }
 }
