@@ -79,7 +79,7 @@ namespace RMS.Service.TenantInfo
             else
             {
                 model.flag = 2;
-                model.SuccessMessage = "Failed";
+                model.FailureMessage = "Failed";
                 model.IsSuccess = false;
             }
 

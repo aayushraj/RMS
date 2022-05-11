@@ -2,6 +2,7 @@
 using RMS.Service.Helpers;
 using RMS.Service.Report;
 using RMS.Service.TenantInfo;
+//using RMS.Service.Category;
 //using RMS.Service.Payment;
 using RMS.Service.SetUp;
 using System;
@@ -9,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace RMS.Service
 {
     public static class DependencyInjection
@@ -23,6 +23,7 @@ namespace RMS.Service
             ser.AddScoped<IFamilyInfoService, FamilyInfoService>();
             ser.AddScoped<IRentSetupService, RentSetupService>();
             //ser.AddScoped<ISetupServices, SetupService>();
+            
         }
     }
 }
