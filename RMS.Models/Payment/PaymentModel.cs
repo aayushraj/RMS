@@ -1,13 +1,6 @@
-﻿using RMS.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RMS.Models.Common;
-
-namespace RMS.Models
+﻿namespace RMS.Models
 {
-   public class PaymentModel:BaseModel
+    public class PaymentModel:BaseModel
     {
         public int Id { get; set; }
         public int PaymentId { get; set; }
