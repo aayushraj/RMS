@@ -16,7 +16,7 @@
 //        private readonly IRentSetupService _rentSer;
 //        private readonly IPaymentServices _paymentService;
 
-//        public PaymentServices(IRentSetupService rentSer ,I)
+//        public PaymentServices(IRentSetupService rentSer, I)
 //        {
 //            //repo = new PaymentRepository();
 //            _rentSer = rentSer;
@@ -26,7 +26,6 @@
 //        {
 //            if (CheckPayment)
 //            {
-
 //                if (model.PaidAmount == rentSetUpModel.Amount)
 //                {
 //                    model.DueAmount = 0;

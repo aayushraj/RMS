@@ -80,19 +80,29 @@ namespace RMS.Service.TenantInfo
 
             if (Deleted)
             {
-                model.flag = 1;
-                model.IsSuccess = true;
-                model.SuccessMessage = "Deleted Successfully";
+                DeleteSuccess(model);
             }
 
             else
             {
-                model.flag = 2;
-                model.IsSuccess = false;
-                model.SuccessMessage = "Fail to Delete";
+                DeleteFail(model);
             }
 
             return model;
+        }
+
+        private static void DeleteFail(TenantInfoModel model)
+        {
+            model.flag = 2;
+            model.IsSuccess = false;
+            model.SuccessMessage = "Fail to Delete";
+        }
+
+        private static void DeleteSuccess(TenantInfoModel model)
+        {
+            model.flag = 1;
+            model.IsSuccess = true;
+            model.SuccessMessage = "Deleted Successfully";
         }
     }
 }
