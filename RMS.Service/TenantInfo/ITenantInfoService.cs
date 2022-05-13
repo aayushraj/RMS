@@ -10,6 +10,7 @@ namespace RMS.Service.TenantInfo
 {
     public interface ITenantInfoService:IGenericService<TenantInfoModel>
     {
+        List<TenantInfoModel> GetListBySearch(string search);
     }
 
     public class TenantInfoService : ITenantInfoService
@@ -103,6 +104,11 @@ namespace RMS.Service.TenantInfo
             model.flag = 1;
             model.IsSuccess = true;
             model.SuccessMessage = "Deleted Successfully";
+        }
+
+        public List<TenantInfoModel> GetListBySearch(string search)
+        {
+            return _tenantInfoRepository.GetListBySearch(search);
         }
     }
 }

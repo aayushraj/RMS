@@ -1,4 +1,5 @@
-﻿using RMS.Models.Common;
+﻿using Microsoft.AspNetCore.Mvc;
+using RMS.Models.Common;
 using System.ComponentModel;
 
 namespace RMS.Models
@@ -26,6 +27,9 @@ namespace RMS.Models
         public decimal? DueAmount { get; set; }
         public decimal? PaidAmount { get; set; }
         public decimal? Advance { get; set; }
+
+        [BindProperty(SupportsGet =true)]
+        public string  SearchTenant { get; set; }
         public FamilyInfoModel familyinfo { get; set; }
         public IList<FamilyInfoModel> FamilyList{ get; set; }
 

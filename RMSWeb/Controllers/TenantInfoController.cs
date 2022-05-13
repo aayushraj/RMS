@@ -18,13 +18,17 @@ namespace RMS.Controllers
             _commonUtilityService = commonUtilityService;
             _reportService = reportService;
         }
-        public IActionResult Index()
+        public IActionResult Index(TenantInfoModel model1)
         {
             TenantInfoModel model = new TenantInfoModel();
-            model.List = _tenantInfoService.GetList();
-            //var check = model.List.Select(x => x.FirstName).Contains("Nitish");
+            //model.List = _tenantInfoService.GetList();
+            ////var check = model.List.Select(x => x.FirstName).Contains("Nitish");
+            //return View(model);
+            ////return Ok(model.List);
+            
+            model.List = _tenantInfoService.GetListBySearch(model1.SearchTenant);
             return View(model);
-            //return Ok(model.List);
+
         }
 
         public IActionResult Create()

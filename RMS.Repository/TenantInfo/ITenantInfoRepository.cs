@@ -15,6 +15,7 @@ namespace RMS.Repository.TenantInfo
 {
     public interface ITenantInfoRepository : IGenericRepository<TenantInfoModel>
     {
+        List<TenantInfoModel> GetListBySearch(string search);
     }
 
     public class TenantInfoRepository : ITenantInfoRepository
@@ -236,6 +237,19 @@ namespace RMS.Repository.TenantInfo
         public bool Delete(TenantInfoModel model)
         {
             throw new NotImplementedException();
+        }
+
+        public List<TenantInfoModel> GetListBySearch(string search)
+        {
+            if (string.IsNullOrEmpty(search))
+            {
+                return GetList();
+            }
+            else
+            {
+                var list = GetList();
+                return list.Where(x => x.FirstName.Contains(search)).ToList();
+            }
         }
 
 
