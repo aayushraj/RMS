@@ -1,35 +1,6 @@
 ﻿@using RMS.Models
 
 @model TenantInfoModel
-<style>
-    .center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-  font-size:smaller;
-  }
-
-#textbox{
-    height:30px;
-    width:200px;
-    font-size:medium;
-  }
-
-  #searchbtn{
-      height:30px;
-  }
- 
-</style>
- <style type="text/css">
-    .searchspan {
-        float: right;
-        margin-left:6px;
-        position: absolute;
-        
-    }
-</style>
-
 
 @{
     var loopcounter = 0;
@@ -40,38 +11,7 @@
     var listCount = @Model.List.Count;
     var list = @Model.List;
 }
-
-@if (Model.IsSuccess)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>@Model.SuccessMessage</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-}
-
-@if (!Model.IsSuccess && Model.flag == 2)
-{
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>@Model.SuccessMessage</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-}
-<div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-inline pull-left">
-               <input type="text" class="form-control" id="searchTxt"/> <span class="fas fa-search searchspan"></span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<br>
-@*<div class="card">
+<div class="card">
     <div class="card-header">
         <b>Tenant Information</b>
          <a class="btn btn-primary btn-sm" title="Edit Tenant" asp-controller="TenantInfo" asp-action="Create" style="float:right"><i class="fa fa-plus">&nbsp;</i>Add Tenant</a>
@@ -101,6 +41,17 @@
                                   <b><i class="fa fa-address-book fa-fw"></i>@list[i].Contact</b> 
                                   <br>
                                   <b><i class="fas fa-users fa-fw" title="Family Member"></i>0</b> 
+                                        @*@{
+                                            string test = Model.List[i].FamilyList.Count.ToString();
+                                            if(string.IsNullOrEmpty(test))
+                                            {
+                                                <b><i class="fas fa-users fa-fw"></i>0</b>
+                                            }
+
+                                            else
+                                            {
+                                              <b><i class="fas fa-users fa-fw"></i>Count</b>  
+                                            }*@
                                   <br>
                                  <a href="/tenantinfo/Edit/@list[i].Id"  style="float :left!important"><i class="fas fa-pen"> </i></a> 
                                  <a href="/tenantinfo/Delete/@list[i].Id"  style="float :right!important"><i class="fas fa-trash-alt" style="color:red"> </i></a> 
@@ -125,43 +76,4 @@
         
        
     </div>
-  </div>*@
-  <div id="getTenantDetails">
-
   </div>
-  <script>
-      $(()=> {
-          getTenant();
-
-          $('#searchTxt').on('keyup',()=>{
-              getTenant();
-          });
-      });  
-
-
-        function getTenant(){
-            $.ajax({
-                url:'@Url.Action("SearchTenant","TenantInfo")',
-                datatype:'html',
-                method: 'GET',
-                data: {search : $('#searchTxt').val()},
-                success : function(res){
-                    $('#getTenantDetails').html('').html(res);
-                },
-                error:function(err){
-
-                }
-            })
-        }
-  </script>
-
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-
-
-
-
-
-
-
-

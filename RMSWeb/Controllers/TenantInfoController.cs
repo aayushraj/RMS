@@ -21,14 +21,24 @@ namespace RMS.Controllers
         public IActionResult Index(TenantInfoModel model1)
         {
             TenantInfoModel model = new TenantInfoModel();
-            //model.List = _tenantInfoService.GetList();
-            ////var check = model.List.Select(x => x.FirstName).Contains("Nitish");
-            //return View(model);
-            ////return Ok(model.List);
-            
-            model.List = _tenantInfoService.GetListBySearch(model1.SearchTenant);
+            model.List = _tenantInfoService.GetList();
             return View(model);
 
+        }
+        public PartialViewResult SearchTenant(string search)
+        {
+            TenantInfoModel model = new TenantInfoModel();
+            model.List = _tenantInfoService.GetList();
+            if(String.IsNullOrEmpty(search))
+            {
+                return PartialView("_TenantDetails",model);
+            }
+            else
+            {
+                model.List = model.List.Where(x => x.FirstName.ToLower().Contains(search.ToLower())).ToList();
+                return PartialView("_TenantDetails", model);
+            }
+            
         }
 
         public IActionResult Create()
