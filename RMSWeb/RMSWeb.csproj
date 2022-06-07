@@ -22,11 +22,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="datepicker\js\" />
     <Folder Include="photo\" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\mobiscroll.jquery.min.css" />
     <None Include="wwwroot\img\Spinner-1s-200px.gif" />
+    <None Include="wwwroot\js\mobiscroll.jquery.min.js" />
   </ItemGroup>
 
 </Project>

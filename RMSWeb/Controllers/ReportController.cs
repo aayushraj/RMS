@@ -19,6 +19,13 @@ namespace RMS.Controllers
         }
         public IActionResult MonthlyReport()
         {
+            ViewBag.GetTenant = _tenantInfoService
+                                    .GetList()
+                                    .Select(x => new
+                                    {
+                                        Id = x.Id,
+                                        Name = string.Format("{0} {1} {2}", x.FirstName, x.MiddleName, x.LastName)
+                                    }).ToList();
             return View();
         }
 
@@ -30,6 +37,13 @@ namespace RMS.Controllers
 
         public IActionResult GetDailyReportDate()
         {
+            ViewBag.GetTenant = _tenantInfoService
+                                    .GetList()
+                                    .Select(x => new
+                                    {
+                                        Id = x.Id,
+                                        Name = string.Format("{0} {1} {2}", x.FirstName, x.MiddleName, x.LastName)
+                                    }).ToList();
             return View();
         }
 

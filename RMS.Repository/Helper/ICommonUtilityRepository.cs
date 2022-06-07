@@ -1,4 +1,6 @@
-﻿using RMS.Models.Common;
+﻿using RMS.Models;
+using RMS.Models.Common;
+using System.Linq;
 
 namespace RMS.Repository
 {
@@ -6,9 +8,10 @@ namespace RMS.Repository
     {
         List<DDLModel> GetStates();
         List<DDLModel> GetDistricts(int stateId);
-        List<DDLModel> GetFloor(int floorIdd);
+        TenantInfoModel GetFloor(int floorIdd);
         List<DDLModel> GetRelationships();
         string GetMonth(int id);
+        List<DDLModel> GetTenantList();
     }
     public class CommonUtilityRepository : ICommonUtilityRepository
     {
@@ -23,10 +26,13 @@ namespace RMS.Repository
             return _dapperService.Query<DDLModel>(sql, _dapperService.AddParam(stateId));
         }
 
-        public List<DDLModel> GetFloor(int floorId)
+        public TenantInfoModel GetFloor(int floorId)
         {
-            string sql = @"Select * from RMS_INFO where id=@Id";
-            return _dapperService.Query<DDLModel>(sql, _dapperService.AddParam(floorId));
+            string sql = @"Select rf.FloorId,f.FloorName from RMS_INFO rf
+                            inner join RMS_INFO_Floor as f on f.FloorId = rf.FloorId
+                            where id=@Id";
+            var model= _dapperService.Query<TenantInfoModel>(sql, _dapperService.AddParam(floorId)).FirstOrDefault();
+            return model;
         }
 
         public string GetMonth(int id)
@@ -94,6 +100,12 @@ namespace RMS.Repository
         public List<DDLModel> GetStates()
         {
             string sql = @"SELECT StateId AS Value,StateName AS Text FROM RMS_INFO_STATE";
+            return _dapperService.Query<DDLModel>(sql);
+        }
+
+        public List<DDLModel> GetTenantList()
+        {
+            string sql = @"select Id as Value, FirstName As Text From RMS_INFO";
             return _dapperService.Query<DDLModel>(sql);
         }
     }

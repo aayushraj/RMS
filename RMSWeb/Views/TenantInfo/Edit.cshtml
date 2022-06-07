@@ -3,123 +3,130 @@
 @{
     int i = 1;
 }
-
-
-
-
 <div>
-    <h1>Tenant Information</h1>
-    <form method="post">
-        <div class="row form-group">
-            <div class="col-md-4">
-                <label>FistName</label>
-                <input type="text" name="FirstName" value="@Model.FirstName" class="form-control" />
-            </div>
-            <div class="col-md-4">
-                <label>MiddleName</label>
-                <input type="text" name="MiddleName" value="@Model.MiddleName" class="form-control" />
-            </div>
-            <div class="col-md-4">
-                <label>LastName</label>
-                <input type="text" name="LastName" value="@Model.LastName" class="form-control" />
-            </div>
+    <div class="card">
+        <div class="card-header">
+            Tenant Information
         </div>
+        <form method="post">
+        <div class="card-body">
+                  <div class="card">
+                     <div class="card-body">
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <label>FirstName</label>
+                                        <input type="text" name="FirstName" value="@Model.FirstName" class="form-control" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>MiddleName</label>
+                                        <input type="text" name="MiddleName" value="@Model.MiddleName" class="form-control" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>LastName</label>
+                                        <input type="text" name="LastName" value="@Model.LastName" class="form-control" />
+                                    </div>
+                                </div>
 
-        <div class="row form-group">
-            <div class="col-md-4">
-                <label>Cotact</label>
-                <input type="number" name="Contact" value="@Model.Contact" class="form-control" />
-            </div>
-            <div class="col-md-4">
-                <label>Address</label>
-                <input type="text" name="Address" value="@Model.Address" class="form-control" />
-            </div>
-            <div class="col-md-4">
-                <label>City</label>
-                <input type="text" name="City" value="@Model.City" class="form-control" />
-            </div>
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <label>Contact</label>
+                                        <input type="number" name="Contact" value="@Model.Contact" class="form-control" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Address</label>
+                                        <input type="text" name="Address" value="@Model.Address" class="form-control" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>City</label>
+                                        <input type="text" name="City" value="@Model.City" class="form-control" />
+                                    </div>
 
-        </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <label>State</label>
+                                        <select id="stateId" class="form-control" asp-for="State" value="@Model.StateId" asp-items="@(new SelectList(@ViewBag.GetState,"Value","Text"))"></select>
 
-        <div class="row form-group">
-            <div class="col-md-4">
-                <label>State</label>
-                @*<select id="stateId" class="form-control" asp-for="State" asp-items="@(new SelectList(@ViewBag.GetStates,"Value","Text"))"></select>*@
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>District</label>
+                                        <select id="districtId" class="form-control" asp-for="District" value="@Model.District" asp-items="@(new SelectList(@ViewBag.GetDistrict,"Value","Text"))"></select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>FloorNumber</label>
+                                        <input type="text" name="FloorId" value="@Model.FloorId" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <label>WardNo</label>
+                                        <input type="number" name="WardNo" value="@Model.WardNo" class="form-control" />
 
-            </div>
-            <div class="col-md-4">
-                <label>District</label>
-                @*@Html.DropDownListFor(x => x.District, new SelectList(string.Empty), "Select District", new { @class = "form-control", @id = "districtId" })*@
-            </div>
-            <div class="col-md-4">
-                <label>FloorNumber</label>
-                <input type="text" name="FloorNumer" value="@Model.FloorNumber" class="form-control" />
-            </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-md-4">
-                <label>WardNo</label>
-                <input type="number" name="WardNo" value="@Model.WardNo" class="form-control" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Email</label>
+                                        <input type="text" name="Email" value="@Model.Email" class="form-control" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Municipality</label>
+                                        <input type="text" name="Municipality" value="NULL" class="form-control" />
+                                    </div>
+                               </div>
+                            </div>
+                      </div>
+                     <div>
+                        @*@foreach (var item in Model.FamilyList)*@
+                        @for (int j = 0; j < Model.FamilyList.Count; j++)
+                        {
+                            
+                            @Html.HiddenFor(x=>x.FamilyList[j].Id)
+                           
+                                <div class="card">
+                                 <div class="card-header">Family Relationship @i</div>
+                                     <div class="card-body">
+                                        <div class="row form-group">
+                                            <div class="col-md-4">
+                                                <label>FirstName</label>
+                                                @Html.TextBoxFor(x => x.FamilyList[j].FirstName, new { @class = "form-control" })
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>LastName</label>
+                                                @Html.TextBoxFor(x=> x.FamilyList[j].LastName, new {@class ="form-control"})
+                                            </div>
 
-            </div>
-            <div class="col-md-4">
-                <label>Email</label>
-                <input type="text" name="Email" value="@Model.Email" class="form-control" />
-            </div>
-            <div class="col-md-4">
-                <label>Municipality</label>
-                <input type="text" name="Municipality" value="NULL" class="form-control" />
-            </div>
-        </div>
+                                            <div class="col-md-4">
+                                                <label>Gender</label>
+                                                @Html.TextBoxFor(x => x.FamilyList[j].Gender , new {@class="form-control"})
+                                            </div>
 
-        <div>
-            <h1>Family Information</h1>
+                                            <div class="col-md-4">
+                                                <label>Relationship</label>
+                                                @Html.TextBoxFor(x=> x.FamilyList[j].Relationship, new { @class = "form-control" })
+                                            </div>
 
-            @*@foreach (var item in Model.FamilyList)*@
-            @for (int j = 0; j < Model.FamilyList.Count; j++)
-            {
-                @Html.HiddenFor(x=>x.FamilyList[j].Id)
-                <fieldset>
-                    <legend>Relationship @i</legend>
-                    <div class="row form-group">
-                        <div class="col-md-4">
-                            <label>FirstName</label>
-                            @Html.TextBoxFor(x => x.FamilyList[j].FirstName, new { @class = "form-control" })
-                        </div>
-                        <div class="col-md-4">
-                            <label>LastName</label>
-                            @Html.TextBoxFor(x=> x.FamilyList[j].LastName, new {@class ="form-control"})
-                        </div>
+                                            <div class="col-md-4">
+                                                <label>Date of Birth</label>
+                                                @Html.TextBoxFor(x =>x.FamilyList[j].DOB , new {@class="form-control"})
+                                            </div>
+                                            <div class="clearfix"></div>
 
-                        <div class="col-md-4">
-                            <label>Gender</label>
-                            @Html.TextBoxFor(x => x.FamilyList[j].Gender , new {@class="form-control"})
-                        </div>
-
-                        <div class="col-md-4">
-                            <label>Relationship</label>
-                            @Html.TextBoxFor(x=> x.FamilyList[j].Relationship, new { @class = "form-control" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label>Date of Birth</label>
-                            @Html.TextBoxFor(x =>x.FamilyList[j].DOB , new {@class="form-control"})
-                        </div>
-                        <div class="clearfix"></div>
-
+                                        </div>
+                                    </div>
+                               </div>
+                            
+                            <div class="clearfix"></div>
+                            <br>
+                            i++;
+                           
+                        }
                     </div>
-                </fieldset>
-                <div class="clearfix"></div>
-                <br>
-                i++;
-            }
-        </div>
-        <div>
-            <input type="submit" value="Edit" class="btn btn-success" />
-            <a href="/TenantInfo/Index" class="btn btn-primary">Back</a>
-        </div>
-    </form>
-
+             </div>
+            <div>
+                <input type="submit" value="Edit" class="btn btn-success" />
+                <a href="/TenantInfo/Index" class="btn btn-primary">Back</a>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
@@ -130,23 +137,21 @@
 
         var id = $(this).val();
         var url = "/Common/GetDistrict?stateId=" + id;
-
+        console.log(id);
         $.ajax({
-            type: "post",
+            type: "get",
             url: url,
             dataType: 'json',
 
             success: function (data) {
-                // console.log(data);
+                 console.log(data);
                 // states contains the JSON formatted list
                 // of states passed from the controller
+                $('#districtId').empty();
                 $.each(data, function (i, city) {
-                    $('#districtId').empty();
-                    $.each(data, function (i, city) {
                         $("#districtId").append('<option value="'
                             + city.Value + '">'
                             + city.Text + '</option>');
-                    })
                 });
             },
             error: function () {

@@ -6,74 +6,75 @@
         display:none;
     }
 </style>
-
+<link href="~/css/jquery-ui.theme.min.css" rel="stylesheet" />
+<link href="~/css/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/js/jquery-3.4.1.js"></script>
+<script src="~/js/jquery-ui.min.js"></script>
 <div>
-    <h1>Enter Details</h1>
-    <form method="post">
-        <div class="row form-group">
-            <div class="col-md-4">
-                <label>Tenant Name</label>
-                <select id = "tenantId" class="form-control" asp-for="TenantId" asp-items="@(new SelectList(@ViewBag.GetTenant))"></select>
-
-            </div>
-            <div class="col-md-4 display" id="floorDisplayId">
-                <label>Floor</label>
-                @Html.DropDownListFor(x => x.FloorId, new SelectList(string.Empty), new { @class = "form-control", @id = "floorId",@readonly=true})
-            </div>
-            <div class="col-md-4">
-                <label>Paid Amount</label>
-                <input type="text" name="PaidAmount" class="form-control" />
-            </div>
-
+    <div class="card">
+        <div class="card-header">
+            Pay Rent
         </div>
+        <div class="card-body">
+                 <form method="post">
+                     <div class="row form-group">
+                             <div class="col-md-4">
+                                 <label>Tenant Name</label>
+                                  <select id = "tenantId" class="form-control" asp-for="TenantId" asp-items="@(new SelectList(@ViewBag.GetTenant,"Value","Text"))">
+                                  <option value="">Select Tenant</option></select>
+                             </div>
+                            <div class="col-md-4 display" id="floorDisplayId">
+                                <label>Floor</label>
+                                <input type="text"   class="form-control" readonly id="FloorName" />
+                                <input type="hidden"  asp-for="FloorId" class="form-control" readonly id="floorId" />
+                              </div>
+                            <div class="col-md-4">
+                                <label>Paid Amount</label>
+                                <input type="text" name="PaidAmount" class="form-control" />
+                            </div>
+                     </div>
+                    <div class="row form-group">
+                            <div class="col-md-4">
+                                <label>Payment Date</label>
+                                <input type="text" name="PaymentDate" class="form-control datepicker">
 
-        <div class="row form-group">
-            <div class="col-md-4">
-                <label>Payment Date</label>
-                <input type="datetime-local" name="PaymentDate" class="form-control">
-
-            </div>
+                            </div>
             
+                    </div>
+                    <input type="submit" value="Pay" class="btn btn-success"/>
+             </form>
         </div>
-        <input type="submit" value="Pay" class="btn btn-success"/>
-    </form>
-
+    </div>
 </div>
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script>
+    $('.datepicker').datepicker({
+        }).datepicker('setDate', 'today');
+
     $(document).ready(function () {
-        $('.datepicker').datepicker();
-
-
-
         $('#tenantId').change(function () {
 
             var id = $(this).val();
+            //console.log(id);
             var url = "/Common/GetFloor?FloorId=" + id;
             $('#floorDisplayId').hide();
 
             if (id == null || id =="") {
                 $('#floorDisplayId').hide();
-
+                $('#FloorName').val(null);
                 return;
             }
 
             $.ajax({
                 type: "get",
                 url: url,
-                dataType: 'json',
-
+                datatype:"Json",
                 success: function (data) {
-                    console.log(data.FloorId);
-                    // states contains the JSON formatted list
-                    // of states passed from the controller
-                    $('#floorId').empty();
+                    console.log(data.floorId);
                     $('#floorDisplayId').show();
-                    $("#floorId").append('<option value="'
-                        + data.FloorId + '">'
-                                + data.FloorName + '</option>');
-
+                    $('#FloorName').val(data.floorName);
+                    $('#floorId').val(data.floorId);
                 },
                 error: function () {
                     alert("Error");

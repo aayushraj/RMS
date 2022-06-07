@@ -21,8 +21,8 @@ namespace RMS.Controllers
         public IActionResult Index(TenantInfoModel model1)
         {
             TenantInfoModel model = new TenantInfoModel();
-            model.List = _tenantInfoService.GetList();
-            return View(model);
+            model1.List = _tenantInfoService.GetList();
+            return View(model1);
 
         }
         public PartialViewResult SearchTenant(string search)
@@ -83,7 +83,7 @@ namespace RMS.Controllers
         public IActionResult GetById(int id) 
         {
             var model = _tenantInfoService.GetById(id);
-            return Json(model.FloorNumber);
+            return Json(model.FloorId);
         }
 
         [HttpPost]
@@ -97,40 +97,37 @@ namespace RMS.Controllers
 
         public IActionResult Edit(int? id)
         {
+            TenantInfoModel model = new TenantInfoModel();
+            model = _tenantInfoService.GetById(id);
             ViewBag.GetState = _commonUtilityService.GetStates().Select(x => new
                                                             {
                                                                 x.Value,
                                                                 x.Text
                                                             }).ToList();
-            TenantInfoModel model = new TenantInfoModel();
-            model = _tenantInfoService.GetById(id);
+            ViewBag.GetDistrict = _commonUtilityService.GetDistricts(model.StateId).Select(x => new
+                                                                            {
+                                                                                 x.Value,
+                                                                                 x.Text
+                                                                             }).ToList();
+
             return View(model);
         }
 
         [HttpPost]
         public IActionResult Edit(TenantInfoModel model)
         {
-            var model1 = _tenantInfoService.Edit(model);
-            model.List = _tenantInfoService.GetList();
-            return View("Index", model1);
+             _tenantInfoService.Edit(model);
+            return RedirectToAction("Index");
         }
 
 
         public IActionResult Delete(int? id)
         {
-            TenantInfoModel model = new TenantInfoModel();
-            model = _tenantInfoService.GetById(id);
-            return View(model);
+            var model = _tenantInfoService.Delete(id);
+            return RedirectToAction("Index",model);
         }
 
-        [HttpPost]
-        public IActionResult Delete(TenantInfoModel model)
-        {
-            var model1 = _tenantInfoService.Delete(model);
-            model1.List = _tenantInfoService.GetList();
-            return View("Index", model1);
-        }
-
+       
 
     }
 }

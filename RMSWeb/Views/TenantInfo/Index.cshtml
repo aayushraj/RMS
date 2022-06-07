@@ -43,12 +43,10 @@
 
 @if (Model.IsSuccess)
 {
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>@Model.SuccessMessage</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+    <script>
+        console.log('hi');
+        toastSuccess(@Model.SuccessMessage);
+    </script>
 }
 
 @if (!Model.IsSuccess && Model.flag == 2)
@@ -64,7 +62,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="form-inline pull-left">
-               <input type="text" class="form-control" id="searchTxt"/> <span class="fas fa-search searchspan"></span>
+               <input type="text" class="form-control" id="searchTxt"/><span class="fas fa-search searchspan"></span>
             </div>
         </div>
     </div>
@@ -157,7 +155,12 @@
 
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-
+<script>
+    var Toast = function(msg){
+        console.log(msg);
+        toastSuccess(msg);
+    }
+</script>
 
 
 

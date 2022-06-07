@@ -20,11 +20,11 @@ namespace RMS.Controllers
             return Json(new SelectList(districtList.OrderBy(x=>x.Value), "Value", "Text"));
         }
 
-        //public IActionResult GetFloor(int Id)
-        //{
-        //    var Floor = Utility.Utilities.GetFloor(Id);
-        //    return Json(Floor);
-        //}
+        public IActionResult GetFloor(int FloorId)
+        {
+            var model = _commonUtilityService.GetFloor(FloorId);
+            return Json(model);
+        }
 
         //public SelectList GetState()
         //{

@@ -1,4 +1,5 @@
-﻿using RMS.Models.Common;
+﻿using RMS.Models;
+using RMS.Models.Common;
 using RMS.Repository;
 
 namespace RMS.Service.Helpers
@@ -7,9 +8,10 @@ namespace RMS.Service.Helpers
     {
         List<DDLModel> GetStates();
         List<DDLModel> GetDistricts(int stateId);
-        List<DDLModel> GetFloor();
+        TenantInfoModel GetFloor(int id);
         List<DDLModel> GetRelationship();
         string GetMonth(int id);
+        List<DDLModel> GetTenantList();
     }
     public class CommonUtilityService : ICommonUtilityService
     {
@@ -19,14 +21,15 @@ namespace RMS.Service.Helpers
             _commonUtilities = commonUtilities;
         }
 
+
         public List<DDLModel> GetDistricts(int stateId)
         {
             return _commonUtilities.GetDistricts(stateId);
         }
 
-        public List<DDLModel> GetFloor()
+        public TenantInfoModel GetFloor(int id)
         {
-            throw new NotImplementedException();
+            return _commonUtilities.GetFloor(id);
         }
 
         public string GetMonth(int id)
@@ -42,6 +45,11 @@ namespace RMS.Service.Helpers
         public List<DDLModel> GetStates()
         {
             return _commonUtilities.GetStates();
+        }
+
+        public List<DDLModel> GetTenantList()
+        {
+            return _commonUtilities.GetTenantList();
         }
     }
 

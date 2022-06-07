@@ -2,6 +2,15 @@
 
 @model TenantInfoModel
 
+<script src="~/js/custom.js"></script>
+@*@if (Model.IsSuccess)
+{
+    <script>
+        console.log('hi');
+        toastSuccess(@Model.SuccessMessage);
+    </script>
+}*@
+
 @{
     var loopcounter = 0;
     var count = 0;
@@ -54,7 +63,7 @@
                                             }*@
                                   <br>
                                  <a href="/tenantinfo/Edit/@list[i].Id"  style="float :left!important"><i class="fas fa-pen"> </i></a> 
-                                 <a href="/tenantinfo/Delete/@list[i].Id"  style="float :right!important"><i class="fas fa-trash-alt" style="color:red"> </i></a> 
+                                 <a href="" onclick = "deleteTenant(@list[i].Id)"  style="float :right!important" data-toggle="modal" data-target="#modal-sm"><i class="fas fa-trash-alt" style="color:red"> </i></a> 
                                  
                                   <a href ="/TenantInfo/GetTenantDetails/@list[i].Id" target="_blank" title="View details" ><input type="button" value="View details" class="btn btn-info btn-sm" ></a>
                               </center>
@@ -74,6 +83,49 @@
             </div>
          }  
         
-       
     </div>
   </div>
+  <div class="modal fade show" id="modal-sm" style="display:none; padding-right: 17px;" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Are You sure you want to Delete</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" onclick="confirm()" class="btn btn-primary">Delete</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+  <script>
+      var deleteTenant = function(Id){
+           console.log(Id);
+            $('.modal-body').append('<input type="hidden" id="rowId" data-rowid='+Id+'>')
+            $('#modal-sm').show();
+      }
+      var confirm = function(){
+        var rowId = $('#rowId').data('rowid');
+       // console.log(rowId);
+        console.log(rowId);
+        $.ajax({
+            url:"/TenantInfo/Delete?Id=" +rowId,
+            method :"post",
+            success: function(){
+                toastSuccess("Deleted");
+                window.location.href = "/TenantInfo/Index";
+            }
+        }).done(function(){
+            $('#modal-sm').hide();
+        });
+    }
+      
+  </script>

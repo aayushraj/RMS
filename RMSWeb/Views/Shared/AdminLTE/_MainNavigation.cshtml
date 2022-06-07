@@ -35,23 +35,8 @@
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a asp-controller="Home" asp-action="Index" class="nav-link">
-                        <i class="nav-icon fas fa-home"></i>
-                        <p>
-                            Home
-                        </p>
-                    </a>
-                <li class="nav-item">
-                    <a asp-controller="Home" asp-action="Privacy" class="nav-link">
-                        <i class="nav-icon fas fa-lock"></i>
-                        <p>
-                            Privacy
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <i class="nav-icon fas fa-user"></i>
                         <p>
                             Tenant
                             <i class="right fas fa-angle-left"></i>
@@ -70,17 +55,52 @@
                                 <p>Create New</p>
                             </a>
                         </li>
-
-
+                    </ul>
+                </li>
+                <li class="nav-item">
+                <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Report
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/Setup/Index" class="nav-link">
+                            <a href="/Report/MonthlyReport" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Rent FloorWise </p>
+                                <p>Monthly Report</p>
                             </a>
                         </li>
-
-
+                        <li class="nav-item">
+                            <a href="/Report/GetDailyReportDate" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Daily Report</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Report/GetTenant" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Report Summary</p>
+                            </a>
+                        </li>
                     </ul>
+                </li>
+                <li class="nav-item">
+                <a href="/Payment/Create" class="nav-link">
+                        <i class="nav-icon fas fa-credit-card"></i>
+                        <p>
+                            Do Payment
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                <a href="/Setup/Index" class="nav-link">
+                        <i class="nav-icon fas fa-info"></i>
+                        <p>
+                            Rent Details
+                        </p>
+                    </a>
                 </li>
             </ul>
         </nav>

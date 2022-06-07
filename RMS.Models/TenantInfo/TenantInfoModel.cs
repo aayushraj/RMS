@@ -6,7 +6,8 @@ namespace RMS.Models
 {
     public class TenantInfoModel : BaseModel  // model ma chahi data haru  declare garincha.. TenantModel is inherited rom BaseModel
     {
-        public int FloorNumber { get; set; }
+        public int FloorId{ get; set; }
+        public string FloorName { get; set; }
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -15,6 +16,7 @@ namespace RMS.Models
         public string Email { get; set; }
         public decimal Contact { get; set; }
         public int State { get; set; }
+        public int StateId { get; set; }
         public int? District { get; set; }
         public string City { get; set; }
         public int WardNo { get; set; }

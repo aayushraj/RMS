@@ -16,6 +16,7 @@ namespace RMS.Repository.TenantInfo
     public interface ITenantInfoRepository : IGenericRepository<TenantInfoModel>
     {
         List<TenantInfoModel> GetListBySearch(string search);
+        bool Delete(int? id);
     }
 
     public class TenantInfoRepository : ITenantInfoRepository
@@ -161,7 +162,7 @@ namespace RMS.Repository.TenantInfo
 
         public TenantInfoModel GetById(int? id)
         {
-            string getTenantSql = @"select rf.id,rf.FirstName,rf.LastName,rf.Address,rf.Contact,rf.City,rf.FloorNumber,rf.WardNo,rf.Email,rf.MiddleName,D.DistrictName,r.StateName   
+            string getTenantSql = @"select rf.id,rf.FirstName,rf.LastName,rf.Address,rf.Contact,rf.City,rf.District,rf.StateId,rf.FloorId,rf.WardNo,rf.Email,rf.MiddleName,D.DistrictName,r.StateName   
                             from  RMS_INFO rf 
                             inner join RMS_INFO_STATE as r on r.StateId = rf.StateId
                             inner join RMS_INFO_District as D on D.DistrictId = rf.District  where id=@Id ";
@@ -234,9 +235,15 @@ namespace RMS.Repository.TenantInfo
             throw new NotImplementedException();
         }
 
-        public bool Delete(TenantInfoModel model)
+        public bool Delete(int? id)
         {
-            throw new NotImplementedException();
+            string sql = @"Update RMS_Info set status=0 where id=@Id";
+            var parameter = _dapperService.AddParam(id);
+            var rowsAffected=_dapperService.Execute(sql, parameter);
+            if (rowsAffected > 0)
+                return true;
+            else
+                return false;
         }
 
         public List<TenantInfoModel> GetListBySearch(string search)
@@ -250,6 +257,11 @@ namespace RMS.Repository.TenantInfo
                 var list = GetList();
                 return list.Where(x => x.FirstName.Contains(search)).ToList();
             }
+        }
+
+        public bool Delete(TenantInfoModel model)
+        {
+            throw new NotImplementedException();
         }
 
 

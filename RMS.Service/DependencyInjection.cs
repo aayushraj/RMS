@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RMS.Service.Payment;
+
 namespace RMS.Service
 {
     public static class DependencyInjection
@@ -18,11 +20,11 @@ namespace RMS.Service
         {
             ser.AddScoped<IReportService, ReportService>();
             ser.AddScoped<ICommonUtilityService, CommonUtilityService>();
-           // ser.AddScoped<IPaymentServices, PaymentServices>();
+            ser.AddScoped<IPaymentServices, PaymentServices>();
             ser.AddScoped<ITenantInfoService, TenantInfoService>();
             ser.AddScoped<IFamilyInfoService, FamilyInfoService>();
             ser.AddScoped<IRentSetupService, RentSetupService>();
-            //ser.AddScoped<ISetupServices, SetupService>();
+            ser.AddScoped<ISetupServices, SetupService>();
             
         }
     }

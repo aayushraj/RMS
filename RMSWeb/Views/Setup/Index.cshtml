@@ -22,30 +22,36 @@
 }
 
 <div class="table-responsive">
-    <h1>Rent Floor Wise</h1>
-    <a href="/Setup/Create" class="btn btn-primary">Create New</a>
-    <table class=" table table-bordered tab-content table-hover">
-        <thead>
-            <tr>
-                <th>FloorId</th>
-                <th>Amount</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach (var item in Model.list)
-            {
-                <tr class="info">
-                    <td>@item.FloorId</td>
-                    <td>@item.Amount</td>
-                    <td>
-                    <a href="/Setup/Edit/@item.Id" class="btn btn-primary">Update</a>
-                    <a href="/Setup/Delete/@item.Id" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    
+    <div class="card">
+        <div class="card-header"> 
+            Rent floor wise
+                <a href="/Setup/Create"  style="float:right" class="btn btn-primary btn-sm">Create New</a>
+        </div>
+        <div class="card-body">
+                    <table class=" table table-bordered tab-content table-hover">
+                        <thead>
+                            <tr>
+                                <th>FloorId</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.list)
+                            {
+                                <tr class="info">
+                                    <td>@item.FloorId</td>
+                                    <td>@item.Amount</td>
+                                    <td>
+                                    <a href="/Setup/Edit/@item.Id" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a href="/Setup/Delete/@item.Id" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+            </div>
+    </div>
 </div>
 

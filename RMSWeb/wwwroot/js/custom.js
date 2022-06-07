@@ -1,6 +1,8 @@
 ﻿$(document).ready(function () {
     $('table').DataTable();
     $('select').select2();
+    
+
 });
 
 var dynamicFn = function (htmlId1, htmlId2, htmlId3, url) {

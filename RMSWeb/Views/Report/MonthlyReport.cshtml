@@ -13,7 +13,7 @@
                     <div class="row form-group">
                         <div class="col-md-4">
                             <label>Tenant Name</label>
-                            <select id = "tenantId" class="form-control" asp-for="TenantId" asp-items="@ViewBag.GetTenant"></select>
+                            <select id = "tenantId" class="form-control" asp-for="TenantId" asp-items="@(new SelectList(ViewBag.GetTenant,"Id","Name"))"></select>
                         </div>
 
                         <div class="col-md-4">

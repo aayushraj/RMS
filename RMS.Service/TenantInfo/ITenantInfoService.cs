@@ -11,6 +11,7 @@ namespace RMS.Service.TenantInfo
     public interface ITenantInfoService:IGenericService<TenantInfoModel>
     {
         List<TenantInfoModel> GetListBySearch(string search);
+        TenantInfoModel Delete(int? id);
     }
 
     public class TenantInfoService : ITenantInfoService
@@ -75,21 +76,25 @@ namespace RMS.Service.TenantInfo
            return list;
         }
 
-        public TenantInfoModel Delete(TenantInfoModel model)
+        public TenantInfoModel Delete(int? id)
         {
-            var Deleted = _tenantInfoRepository.Delete(model);
-
+            var Deleted = _tenantInfoRepository.Delete(id);
+            TenantInfoModel model = new TenantInfoModel();
             if (Deleted)
             {
-                DeleteSuccess(model);
+                model.flag = 1;
+                model.IsSuccess = true;
+                model.SuccessMessage = "deleted Successfully";
             }
-
+            
             else
             {
-                DeleteFail(model);
+                model.flag = 2;
+                model.IsSuccess = false;
+                model.SuccessMessage = "Fail to delete";
             }
-
             return model;
+            
         }
 
         private static void DeleteFail(TenantInfoModel model)
@@ -109,6 +114,11 @@ namespace RMS.Service.TenantInfo
         public List<TenantInfoModel> GetListBySearch(string search)
         {
             return _tenantInfoRepository.GetListBySearch(search);
+        }
+
+        public TenantInfoModel Delete(TenantInfoModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }
