@@ -1,5 +1,137 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using  RMS.Models
+@model DashboardModel
+<script src="~/js/custom.js"></script>
+
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>@Model.ActiveTenant</h3>
+                    <p>Active Tenant</p>
+                </div>
+                 <div class="icon">
+                    <i class="ion ion-bag"></i>
+                 </div>
+                 <a href="/TenantInfo/Index" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>@Model.TotalReceivedAmount</h3>
+                    <p>Received Amounts</p>
+                </div>
+                 <div class="icon">
+                    <i class="ion ion-bag"></i>
+                 </div>
+                 <a href="#" onclick="getDetails('GetAmountPaidByTenant');" class="small-box-footer" data-toggle="modal" data-target="#modal-lg">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>@Model.Advance</h3>
+                    <p>Total Advance</p>
+                </div>
+                 <div class="icon">
+                    <i class="ion ion-bag"></i>
+                 </div>
+                 <a href="#" onclick="getDetails('GetAdvance');" class="small-box-footer" data-toggle="modal" data-target="#modal-lg">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>@Model.DueAmount</h3>
+                    <p>Total Dues</p>
+                </div>
+                 <div class="icon">
+                    <i class="ion ion-bag"></i>
+                 </div>
+                 <a href="#" onclick="getDetails('GetDue');" class="small-box-footer" data-toggle="modal" data-target="#modal-lg">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                Rent Details
+            </div>
+          <div class="card-body table-responsive">
+              <table class="table table-bordered">
+                  <thead>
+                      <tr>
+                          <th>Floor id</th>
+                          <th>Amount</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                        @foreach(var item in @Model.Setuplist)
+                        {
+                            <tr>
+                                <td>@item.FloorId</td>
+                                <td>@item.Amount</td>
+                            </tr>
+                        }
+                  </tbody>
+                
+              </table>
+              
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                Active Tenants Floor Wise
+            </div>
+            <div class="card-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-lg">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content MyCSS">
+            <div class="modal-header" id="">
+                <b>Details</b>
+                <button type="button" class="close Closebutton" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="tenantDetails" style="display:none">
+
+                </div>
+                @*<div class="modal-footer left">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var getDetails = function(actionName){
+        console.log(actionName);
+        $('#tenantDetails').empty();
+        $.ajax({
+            url : "/Dashboard/" + actionName,
+            method : "get",
+            success : function(data){
+                $('#tenantDetails').show();
+                $('#tenantDetails').html(data);
+            },
+            error: function(){
+                console.log('error');
+            }
+        })
+    }
+</script>

@@ -1,15 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RMS.Models.Common;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace RMS.Models
 {
     public class TenantInfoModel : BaseModel  // model ma chahi data haru  declare garincha.. TenantModel is inherited rom BaseModel
     {
+        
         public int FloorId{ get; set; }
+        public int RowId { get; set; }
         public string FloorName { get; set; }
         public int Id { get; set; }
         public string FirstName { get; set; }
+        [Required]
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }

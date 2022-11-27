@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using RMS.Models;
@@ -21,7 +22,6 @@ namespace RMS.Repository.TenantInfo
 
     public class TenantInfoRepository : ITenantInfoRepository
     {
-        //private string connString = ConfigurationManager.ConnectionStrings["DBstring"].ToString();
         private readonly IDapperService _dapperService;
         public TenantInfoRepository(IDapperService dapperService)
         {
@@ -30,32 +30,9 @@ namespace RMS.Repository.TenantInfo
 
         public bool Create(TenantInfoModel model)
         {
-            //string tenantInsertSql = @"Insert into RMS_INfO values(@FirstName , @LastName , @Address,@Contact,@FloorNumber,@StateId,@City,@WardNo,@Email,@District,@Status,@MiddleName) Select Scope_Identity()";
-
-            //using (var con = _connection)
-            //{
-            //    con.Open();
-            //    con.BeginTransaction();
-
-
-            //    SqlCommand tenantCmd = new SqlCommand(sql,con, transaction);
-
-            //    tenantCmd.Parameters.AddWithValue("FirstName", model.FirstName);
-            //    tenantCmd.Parameters.AddWithValue("LastName", model.LastName);
-            //    tenantCmd.Parameters.AddWithValue("Address", model.Address);
-            //    tenantCmd.Parameters.AddWithValue("Contact", model.Contact);
-            //    tenantCmd.Parameters.AddWithValue("FloorNumber", model.FloorNumber);
-            //    tenantCmd.Parameters.AddWithValue("StateId", model.State);
-            //    tenantCmd.Parameters.AddWithValue("City", model.City);
-            //    tenantCmd.Parameters.AddWithValue("WardNo", model.WardNo);
-            //    tenantCmd.Parameters.AddWithValue("Email", model.Email);
-            //    tenantCmd.Parameters.AddWithValue("District", model.District);
-            //    tenantCmd.Parameters.AddWithValue("Status", 1);
-            //    tenantCmd.Parameters.AddWithValue("MiddleName", model.MiddleName);
-
-            //}
+            #region FrameworkCode
             //SqlConnection con = new SqlConnection(_connection.ConnectionString.ToString());
-            //// SqlTransaction transaction = con.BeginTransaction();
+            //SqlTransaction transaction = con.BeginTransaction();
             //con.Open();
             //SqlTransaction transaction = con.BeginTransaction();
 
@@ -68,7 +45,7 @@ namespace RMS.Repository.TenantInfo
             //    tenantCmd.Parameters.AddWithValue("LastName", model.LastName);
             //    tenantCmd.Parameters.AddWithValue("Address", model.Address);
             //    tenantCmd.Parameters.AddWithValue("Contact", model.Contact);
-            //    tenantCmd.Parameters.AddWithValue("FloorNumber", model.FloorNumber);
+            //    tenantCmd.Parameters.AddWithValue("FloorNumber", model.FloorId);
             //    tenantCmd.Parameters.AddWithValue("StateId", model.State);
             //    tenantCmd.Parameters.AddWithValue("City", model.City);
             //    tenantCmd.Parameters.AddWithValue("WardNo", model.WardNo);
@@ -84,7 +61,7 @@ namespace RMS.Repository.TenantInfo
             //    {
             //        string sql2 = @"Insert into FamilyInfo Values(@FirstName,@LastName,@Address,@Contact,@FloorId,@ParentId,@gender,@Relationship,@Dob,@Status)";
 
-            //        SqlCommand cmd = new SqlCommand(sql2, con,transaction);
+            //        SqlCommand cmd = new SqlCommand(sql2, con, transaction);
 
             //        cmd.Parameters.AddWithValue("FirstName", item.FirstName);
             //        cmd.Parameters.AddWithValue("LastName", item.LastName);
@@ -107,13 +84,54 @@ namespace RMS.Repository.TenantInfo
             //}
 
 
-            //catch(Exception ex)
+            //catch (Exception ex)
             //{
             //    transaction.Rollback();
             //    return false;
 
 
             //}
+            #endregion
+
+            string sql = @"SP_Tenant";
+            //var parameter = _dapperService.AddParam(model);
+            DynamicParameters parameter = new DynamicParameters();
+            parameter.Add("FirstName", model.FirstName);
+            parameter.Add("LastName", model.LastName);
+            parameter.Add("Address", model.Address);
+            parameter.Add("Contact", model.Contact);
+            parameter.Add("FloorId", model.FloorId);
+            parameter.Add("StateId", model.State);
+            parameter.Add("City", model.City);
+            parameter.Add("WardNo", model.WardNo);
+            parameter.Add("Email", model.Email);
+            parameter.Add("District", model.District);
+            parameter.Add("Status", 1);
+            parameter.Add("MiddleName", model.MiddleName);
+            parameter.Add("Flag","I");
+            parameter.Add("RowId", 0, DbType.Int32, ParameterDirection.Output);
+            _dapperService.SPExecute(sql, parameter);
+            model.RowId = parameter.Get<int>("RowId");
+
+            FamilyInfoModel familyModel = new FamilyInfoModel();
+            foreach(var item in model.FamilyList)
+            {
+                string familysql = @"SP_TenantFamily";
+                // var parameters = _dapperService.AddParam(item);
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("FirstName", item.FirstName);
+                parameters.Add("LastName", item.LastName);
+                parameters.Add("Address", model.Address);
+                parameters.Add("Contact", model.Contact);
+                parameters.Add("FloorID", model.FloorId);
+                parameters.Add("ParentID", model.RowId);
+                parameters.Add("gender", item.Gender);
+                parameters.Add("Relationship", item.Relationship);
+                parameters.Add("Dob", item.DOB);
+                parameters.Add("Status", 1);
+                parameters.Add("flag", "I");
+                _dapperService.SPExecute(familysql,parameters);
+            }
             return true;
         }
 
@@ -174,8 +192,8 @@ namespace RMS.Repository.TenantInfo
             var famaliParam = _dapperService.AddParam(tenantInfo.Id);
             var familyinfo = _dapperService.Query<FamilyInfoModel>(sql1, famaliParam);
             tenantInfo.FamilyList = familyinfo;
-            
 
+            #region old codes
             //SqlConnection con = new SqlConnection(_connection.ConnectionString);
             //SqlCommand cmd = new SqlCommand(getTenantSql, con);
             //cmd.Parameters.AddWithValue("id", id);
@@ -227,6 +245,7 @@ namespace RMS.Repository.TenantInfo
             //}
             //model.FamilyList = list;
             //con.Close();
+            #endregion
             return tenantInfo;
         }
 
@@ -265,7 +284,7 @@ namespace RMS.Repository.TenantInfo
         }
 
 
-
+        #region old codes ACID Implementation
         //public bool Edit(TenantInfoModel model)
         //{
         //    SqlConnection con = new SqlConnection(_connection.ConnectionString);
@@ -387,6 +406,7 @@ namespace RMS.Repository.TenantInfo
         //    return cmd.ExecuteNonQuery();
         //}
 
+        #endregion 
 
     }
 

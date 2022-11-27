@@ -10,10 +10,4 @@
     <ProjectReference Include="..\RMS.Repository\RMS.Repository.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.Web.Mvc">
-      <HintPath>..\..\..\RMS-Nitish\Rent-Managemt-System\RMS\Bin\System.Web.Mvc.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

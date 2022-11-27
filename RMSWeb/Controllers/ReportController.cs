@@ -5,9 +5,11 @@ using RMS.Service.TenantInfo;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
 using RMS.Service.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RMS.Controllers
 {
+    [Authorize]
     public class ReportController : Controller
     {
         private readonly IReportService _reportService;

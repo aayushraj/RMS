@@ -8,6 +8,7 @@ namespace RMS.Repository.Report
         ReportModel LastPaid(int? id);
         ReportModel MonthlySummary(ReportModel model);
         List<ReportModel> DailyReport(ReportModel model);
+        List<ReportModel> GetAll();
     }
 
     public class ReportRepository : IReportRepository
@@ -58,6 +59,11 @@ namespace RMS.Repository.Report
             return list;
         }
 
-
+        public List<ReportModel> GetAll()
+        {
+            string sql = @"Select * from payment";
+            var list = _dapper.Query<ReportModel>(sql);
+            return list;
+        }
     }
 }

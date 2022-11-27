@@ -3,15 +3,17 @@ using RMS.Models;
 using RMS.Service.Helpers;
 using RMS.Service.TenantInfo;
 using RMS.Service.Report;
+using Microsoft.AspNetCore.Authorization;
 //using RMS.Utility;
 namespace RMS.Controllers
 {
+    [Authorize]
     public class TenantInfoController : Controller
     {
         private readonly ITenantInfoService _tenantInfoService;
         private readonly ICommonUtilityService _commonUtilityService;
         private readonly IReportService _reportService;
-
+        
         public TenantInfoController(ITenantInfoService tenantInfoService, ICommonUtilityService commonUtilityService, IReportService reportService)
         {
             _tenantInfoService = tenantInfoService;
@@ -22,6 +24,7 @@ namespace RMS.Controllers
         {
             TenantInfoModel model = new TenantInfoModel();
             model1.List = _tenantInfoService.GetList();
+            //return View(model1);
             return View(model1);
 
         }
@@ -89,10 +92,15 @@ namespace RMS.Controllers
         [HttpPost]
         public IActionResult Create(TenantInfoModel model)
         {
-            var model2 = new TenantInfoModel();
-            model2 = _tenantInfoService.Create(model);
-            model2.List = _tenantInfoService.GetList();
-            return View("Index", model2);
+            if(!ModelState.IsValid)
+            {
+                var model2 = new TenantInfoModel();
+                model2 = _tenantInfoService.Create(model);
+                model2.List = _tenantInfoService.GetList();
+                return View("Index", model2);
+            }
+            return View();
+            
         }
 
         public IActionResult Edit(int? id)

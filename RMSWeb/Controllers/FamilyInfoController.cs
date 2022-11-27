@@ -2,9 +2,11 @@
 using RMS.Service.TenantInfo;
 using Microsoft.AspNetCore.Mvc;
 using RMS.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RMS.Controllers
 {
+    [Authorize]
     public class FamilyInfoController : Controller
     {
         private string connString = System.Configuration.ConfigurationManager.ConnectionStrings["DBstring"].ToString();

@@ -14,6 +14,7 @@ namespace RMS.Repository
         List<T> Query<T>(string sql, DynamicParameters param);
         Task<List<T>> QueryAsync<T>(string sql, DynamicParameters param);
         int Execute(string sql, DynamicParameters param);
+        int SPExecute(string sql, DynamicParameters param);
         DynamicParameters AddParam(object param);
     }
     public class DapperService : IDapperService
@@ -94,5 +95,13 @@ namespace RMS.Repository
             return param;
         }
 
+        public int SPExecute(string sql, DynamicParameters param)
+        {
+            using (var con = new SqlConnection(_connection))
+            {
+                con.Open();
+                return con.Execute(sql, param,commandType:CommandType.StoredProcedure);
+            }
+        }
     }
 }

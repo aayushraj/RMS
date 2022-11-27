@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RMS.Models.Common;
 using RMS.Service.Helpers;
 
 namespace RMS.Controllers
 {
+    [Authorize]
     public class CommonController : Controller
     {
         private readonly ICommonUtilityService _commonUtilityService;

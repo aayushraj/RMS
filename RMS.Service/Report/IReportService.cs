@@ -14,6 +14,7 @@ namespace RMS.Service.Report
         ReportModel LastPaid(int? id);
         ReportModel MonthlySummary(ReportModel model);
         ReportModel DailyReport(ReportModel model);
+        List<ReportModel> GetAll();
     }
     public class ReportService : IReportService
     {
@@ -70,6 +71,11 @@ namespace RMS.Service.Report
         {
             model.list = _reportRepository.DailyReport(model);
             return model;
+        }
+
+        public List<ReportModel> GetAll()
+        {
+            return _reportRepository.GetAll();
         }
     }
 }

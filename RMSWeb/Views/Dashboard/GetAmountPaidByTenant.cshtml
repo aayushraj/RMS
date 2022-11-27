@@ -1,0 +1,27 @@
+﻿@using RMS.Models
+@model DashboardModel
+<script src="~/js/custom.js"></script>
+
+@{
+    Layout = null;
+}
+
+ <div class="table-responsive">
+        <table class = "table table-bordered  tab-content table-hover">
+            <thead>
+                <tr>
+                    <th>TenantId</th>
+                    <th>Paid Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in @Model.list)
+                {
+                    <tr>
+                        <td>@item.TenantId</td>
+                        <td>@item.PaidAmount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+</div>

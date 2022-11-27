@@ -11,6 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RMS.Service.Payment;
+using RMS.Service.Dashboard;
+using System.Configuration;
 
 namespace RMS.Service
 {
@@ -18,6 +20,7 @@ namespace RMS.Service
     {
         public static void AddService(this IServiceCollection ser)
         {
+            //ser.AddScoped<IAccountService, AccountService>();
             ser.AddScoped<IReportService, ReportService>();
             ser.AddScoped<ICommonUtilityService, CommonUtilityService>();
             ser.AddScoped<IPaymentServices, PaymentServices>();
@@ -25,6 +28,8 @@ namespace RMS.Service
             ser.AddScoped<IFamilyInfoService, FamilyInfoService>();
             ser.AddScoped<IRentSetupService, RentSetupService>();
             ser.AddScoped<ISetupServices, SetupService>();
+            ser.AddScoped<IDashboardService,DashboardService>();
+            
             
         }
     }

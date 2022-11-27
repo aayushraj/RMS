@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMSWeb", "RMSWeb\RMSWeb.csproj", "{2D1014D8-36E8-4ACB-BB86-636DD5712446}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RMSWeb", "RMSWeb\RMSWeb.csproj", "{2D1014D8-36E8-4ACB-BB86-636DD5712446}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMS.Models", "RMS.Models\RMS.Models.csproj", "{6D617C30-5BE2-499D-BFC5-EC22B4893A20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RMS.Models", "RMS.Models\RMS.Models.csproj", "{6D617C30-5BE2-499D-BFC5-EC22B4893A20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMS.Repository", "RMS.Repository\RMS.Repository.csproj", "{15B63BFF-407D-4E55-B350-905BAA436EA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RMS.Repository", "RMS.Repository\RMS.Repository.csproj", "{15B63BFF-407D-4E55-B350-905BAA436EA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMS.Service", "RMS.Service\RMS.Service.csproj", "{3B73150D-8B33-47AA-B477-F01820F8F4CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RMS.Service", "RMS.Service\RMS.Service.csproj", "{3B73150D-8B33-47AA-B477-F01820F8F4CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

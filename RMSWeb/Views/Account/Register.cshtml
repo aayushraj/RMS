@@ -1,0 +1,170 @@
+﻿@using RMSWeb.Models
+@model RegisterViewModel
+@{
+    Layout = null;
+}
+<!--===============================================================================================-->	
+    <link rel="icon" type="image/png" href="~/imgfavicon.ico"/>
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+    <link rel="stylesheet" type="text/css" href="~/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+    <link rel="stylesheet" type="text/css" href="~/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/css/main.css">
+<!--===============================================================================================-->
+
+
+<body style="background-color: #666666;">
+
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <form class="login100-form validate-form" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <span class="login100-form-title p-b-43">
+                        Register
+                    </span>
+
+                    <div class="wrap-input100 validate-input" data-validate="FisrtName is required">
+                        <input class="input100" asp-for="@Model.FirstName" type="text" >
+                        <span class="focus-input100"></span>
+                        <span class="label-input100">FirstName</span>
+                        <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="LastName is required">
+                        <input class="input100" asp-for="@Model.LastName" type="text" >
+                        <span class="focus-input100"></span>
+                        <span class="label-input100">LastName</span>
+                        <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="UserName is required">
+                        <input class="input100" asp-for="@Model.UserName" type="text" >
+                        <span class="focus-input100"></span>
+                        <span class="label-input100">UserName</span>
+                        <span asp-validation-for="@Model.UserName" class="text-danger"></span>
+
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+                        <input class="input100" asp-for="@Model.Email" type="text" >
+                        <span class="focus-input100"></span>
+                        <span class="label-input100">Email</span>
+                        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+
+                    </div>
+
+
+                    <div class="wrap-input100 validate-input" data-validate="Password is required">
+                        <input class="input100" asp-for="@Model.Password" type="password" >
+                        <span class="focus-input100"></span>
+                        <span class="label-input100">Password</span>
+                        <span asp-validation-for="@Model.Password" class="text-danger"></span>
+
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="Re Enter the Password">
+                        <input class="input100" asp-for="@Model.ConfirmPassword" type="password" >
+                        <span class="focus-input100"></span>
+                        <span class="label-input100">Confirm Password</span>
+                        <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+
+                    </div>
+                    <div class="container-login100-form-btn">
+                        <button  type="submit" class="login100-form-btn">
+                            Register
+                        </button>
+                    </div>
+                </form>
+
+                <div class="login100-more" style="background-image: url('/img/photo1.png');">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+<!--===============================================================================================-->
+    <script src="~/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+    <script src="~/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+    <script src="~/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+    <script src="~/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+    <script src="~/vendor/daterangepicker/moment.min.js"></script>
+    <script src="~/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+    <script src="~/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+    <script src="~/js/main.js"></script>
+
+</body>
+
+@*<div class="row">
+    <div class="col-md-4 mx-auto style="width: 200px;"">
+        <div class="card">
+            <div class="card-header">
+                <h4>Create a new account.</h4>
+            </div>
+            <div class="card-body">
+                 <form  method="post">
+                     <hr />
+                     <div asp-validation-summary="All" class="text-danger"></div>
+                      <div class="form-group">
+                        <label asp-for="@Model.FirstName"></label>
+                        <input asp-for="@Model.FirstName" class="form-control" />
+                        <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+                      </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.LastName"></label>
+                        <input asp-for="@Model.LastName" class="form-control" />
+                        <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Email"></label>
+                        <input asp-for="@Model.Email" class="form-control" />
+                        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Password"></label>
+                        <input asp-for="@Model.Password" class="form-control" />
+                        <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.ConfirmPassword"></label>
+                        <input asp-for="@Model.ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                     <button type="submit" class="btn btn-success">Register</button>
+                 </form>
+            </div>
+        </div>
+       
+    </div>
+</div>
+
+     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.dataTables.min.js" asp-append-version="true"></script>
+    <script src="~/js/toastr.min.js"></script>
+    <script src="~/js/adminlte.min.js"></script>
+    <script src="~/js/custom.js"></script>*@

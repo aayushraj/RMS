@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using RMS.Models;
 using RMS.Service.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RMS.Controllers
 {
+    [Authorize]
     public class PaymentController : Controller
     {
         private readonly IPaymentServices _paymentService;

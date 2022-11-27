@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RMS.Models;
 using RMS.Service;
 
 namespace RMS.Controllers
 {
+    [Authorize]
     public class SetupController : Controller
     {
         private readonly ISetupServices _setupService;
@@ -38,10 +40,15 @@ namespace RMS.Controllers
         [HttpPost]
         public IActionResult Create(SetupModel model)
         {
-            SetupModel model1 = new SetupModel();
-            model1 = _setupService.Create(model);
-            model1.list = _setupService.GetList();
-            return View("Index", model1);
+            if(ModelState.IsValid)
+            {
+                SetupModel model1 = new SetupModel();
+                model1 = _setupService.Create(model);
+                model1.list = _setupService.GetList();
+                return View("Index", model1);
+            }
+            return View();
+            
         }
 
         public IActionResult Edit(int? id)
